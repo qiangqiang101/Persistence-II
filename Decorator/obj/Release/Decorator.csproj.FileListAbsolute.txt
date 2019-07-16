@@ -1,0 +1,7 @@
+D:\Projects\Mods\Persistence\Decorator\bin\Release\ScriptHookVDotNet2.dll
+D:\Projects\Mods\Persistence\Decorator\bin\Release\ScriptHookVDotNet2.xml
+D:\Projects\Mods\Persistence\Decorator\bin\Release\Metadata.dll
+D:\Projects\Mods\Persistence\Decorator\bin\Release\Metadata.pdb
+D:\Projects\Mods\Persistence\Decorator\obj\Release\Metadata.dll
+D:\Projects\Mods\Persistence\Decorator\obj\Release\Metadata.pdb
+D:\Projects\Mods\Persistence\Decorator\obj\Release\Decorator.csprojResolveAssemblyReference.cache

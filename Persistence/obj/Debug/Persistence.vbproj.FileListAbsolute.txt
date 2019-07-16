@@ -1,0 +1,11 @@
+D:\Projects\Mods\Persistence\Persistence\bin\Debug\Persistence.dll
+D:\Projects\Mods\Persistence\Persistence\bin\Debug\Persistence.pdb
+D:\Projects\Mods\Persistence\Persistence\bin\Debug\Persistence.xml
+D:\Projects\Mods\Persistence\Persistence\bin\Debug\ScriptHookVDotNet2.dll
+D:\Projects\Mods\Persistence\Persistence\bin\Debug\ScriptHookVDotNet2.xml
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.vbprojResolveAssemblyReference.cache
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.Resources.resources
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.vbproj.GenerateResource.Cache
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.dll
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.xml
+D:\Projects\Mods\Persistence\Persistence\obj\Debug\Persistence.pdb
