@@ -10,7 +10,8 @@
     <AssemblyName>Persistence</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <MyType>Windows</MyType>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,12 +44,15 @@
     <OptionInfer>On</OptionInfer>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Metadata, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Metadata, Version=1.0.613.1, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\scripts\Metadata.dll</HintPath>
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\scripts\Metadata.dll</HintPath>
+      <Private>False</Private>
     </Reference>
-    <Reference Include="ScriptHookVDotNet2">
-      <HintPath>E:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
+    <Reference Include="ScriptHookVDotNet2, Version=2.10.9.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -119,8 +123,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>
-    <PostBuildEvent>COPY "$(TargetDir)$(TargetFileName)" "E:\Program Files (x86)\Steam\SteamApps\common\Grand Theft Auto V\scripts"
-COPY "$(TargetDir)$(TargetName).pdb" "E:\Program Files (x86)\Steam\SteamApps\common\Grand Theft Auto V\scripts"</PostBuildEvent>
+    <PostBuildEvent>COPY "$(TargetDir)$(TargetFileName)" "D:\Program Files (x86)\Steam\SteamApps\common\Grand Theft Auto V\scripts"
+COPY "$(TargetDir)$(TargetName).pdb" "D:\Program Files (x86)\Steam\SteamApps\common\Grand Theft Auto V\scripts"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

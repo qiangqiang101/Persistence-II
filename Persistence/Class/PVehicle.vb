@@ -125,7 +125,7 @@ Public Structure Vehicles
     Public CustomSecondaryColor As VsColor
     Public HasCustomPrimaryColor As Boolean
     Public HasCustomSecondaryColor As Boolean
-    Public Extra1, Extra2, Extra3, Extra4, Extra5, Extra6, Extra7, Extra8, Extra9 As Boolean
+    Public Extra0, Extra1, Extra2, Extra3, Extra4, Extra5, Extra6, Extra7, Extra8, Extra9, Extra10, Extra11, Extra12, Extra13, Extra14, Extra15 As Boolean
     Public DirtLevel As Single
     Public BodyHealth As Single
     Public EngineHealth As Single
@@ -215,6 +215,7 @@ Public Structure Vehicles
             CustomSecondaryColor = vehicle.CustomSecondaryColor.ToVsColor
             HasCustomPrimaryColor = vehicle.IsPrimaryColorCustom
             HasCustomSecondaryColor = vehicle.IsSecondaryColorCustom
+            Extra0 = vehicle.IsExtraOn(0)
             Extra1 = vehicle.IsExtraOn(1)
             Extra2 = vehicle.IsExtraOn(2)
             Extra3 = vehicle.IsExtraOn(3)
@@ -224,6 +225,12 @@ Public Structure Vehicles
             Extra7 = vehicle.IsExtraOn(7)
             Extra8 = vehicle.IsExtraOn(8)
             Extra9 = vehicle.IsExtraOn(9)
+            Extra10 = vehicle.IsExtraOn(10)
+            Extra11 = vehicle.IsExtraOn(11)
+            Extra12 = vehicle.IsExtraOn(12)
+            Extra13 = vehicle.IsExtraOn(13)
+            Extra14 = vehicle.IsExtraOn(14)
+            Extra15 = vehicle.IsExtraOn(15)
             DirtLevel = vehicle.DirtLevel
             BodyHealth = vehicle.BodyHealth
             EngineHealth = vehicle.EngineHealth

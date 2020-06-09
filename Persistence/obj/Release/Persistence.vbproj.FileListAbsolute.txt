@@ -11,3 +11,12 @@ D:\Projects\Mods\Persistence\Persistence\obj\Release\Persistence.pdb
 D:\Projects\Mods\Persistence\Persistence\bin\Release\Metadata.dll
 D:\Projects\Mods\Persistence\Persistence\bin\Release\Metadata.pdb
 D:\Projects\Mods\Persistence\Persistence\obj\Release\Persistence.vbprojResolveAssemblyReference.cache
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.vbprojResolveAssemblyReference.cache
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.Resources.resources
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.vbproj.GenerateResource.Cache
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.dll
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.xml
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.pdb
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.dll
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.pdb
+C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.xml

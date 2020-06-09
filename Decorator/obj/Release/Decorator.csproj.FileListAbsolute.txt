@@ -5,3 +5,9 @@ D:\Projects\Mods\Persistence\Decorator\bin\Release\Metadata.pdb
 D:\Projects\Mods\Persistence\Decorator\obj\Release\Metadata.dll
 D:\Projects\Mods\Persistence\Decorator\obj\Release\Metadata.pdb
 D:\Projects\Mods\Persistence\Decorator\obj\Release\Decorator.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\bin\Release\Metadata.dll
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\bin\Release\Metadata.pdb
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\bin\Release\ScriptHookVDotNet2.xml
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Decorator.csprojResolveAssemblyReference.cache
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.dll
+C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.pdb

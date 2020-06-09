@@ -711,6 +711,7 @@ Module Helper
                     .CanTiresBurst = v.BulletProofTires
                     If v.HasCustomPrimaryColor Then .CustomPrimaryColor = v.CustomPrimaryColor.ToColor
                     If v.HasCustomSecondaryColor Then .CustomSecondaryColor = v.CustomSecondaryColor.ToColor
+                    .ToggleExtra(0, v.Extra0)
                     .ToggleExtra(1, v.Extra1)
                     .ToggleExtra(2, v.Extra2)
                     .ToggleExtra(3, v.Extra3)
@@ -720,6 +721,12 @@ Module Helper
                     .ToggleExtra(7, v.Extra7)
                     .ToggleExtra(8, v.Extra8)
                     .ToggleExtra(9, v.Extra9)
+                    .ToggleExtra(10, v.Extra10)
+                    .ToggleExtra(11, v.Extra11)
+                    .ToggleExtra(12, v.Extra12)
+                    .ToggleExtra(13, v.Extra13)
+                    .ToggleExtra(14, v.Extra14)
+                    .ToggleExtra(15, v.Extra15)
                     .DirtLevel = v.DirtLevel
                     If saveDamage Then
                         .BodyHealth = v.BodyHealth
@@ -824,6 +831,7 @@ Module Helper
                         .CanTiresBurst = t.BulletProofTires
                         If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
                         If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
+                        .ToggleExtra(0, t.Extra0)
                         .ToggleExtra(1, t.Extra1)
                         .ToggleExtra(2, t.Extra2)
                         .ToggleExtra(3, t.Extra3)
@@ -833,6 +841,12 @@ Module Helper
                         .ToggleExtra(7, t.Extra7)
                         .ToggleExtra(8, t.Extra8)
                         .ToggleExtra(9, t.Extra9)
+                        .ToggleExtra(10, t.Extra10)
+                        .ToggleExtra(11, t.Extra11)
+                        .ToggleExtra(12, t.Extra12)
+                        .ToggleExtra(13, t.Extra13)
+                        .ToggleExtra(14, t.Extra14)
+                        .ToggleExtra(15, t.Extra15)
                         .DirtLevel = t.DirtLevel
                         If saveDamage Then
                             .BodyHealth = t.BodyHealth
@@ -920,6 +934,7 @@ Module Helper
                         .CanTiresBurst = t.BulletProofTires
                         If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
                         If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
+                        .ToggleExtra(0, t.Extra0)
                         .ToggleExtra(1, t.Extra1)
                         .ToggleExtra(2, t.Extra2)
                         .ToggleExtra(3, t.Extra3)
@@ -929,6 +944,12 @@ Module Helper
                         .ToggleExtra(7, t.Extra7)
                         .ToggleExtra(8, t.Extra8)
                         .ToggleExtra(9, t.Extra9)
+                        .ToggleExtra(10, t.Extra10)
+                        .ToggleExtra(11, t.Extra11)
+                        .ToggleExtra(12, t.Extra12)
+                        .ToggleExtra(13, t.Extra13)
+                        .ToggleExtra(14, t.Extra14)
+                        .ToggleExtra(15, t.Extra15)
                         .DirtLevel = t.DirtLevel
                         If saveDamage Then
                             .BodyHealth = t.BodyHealth
