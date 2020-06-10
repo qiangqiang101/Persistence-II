@@ -20,3 +20,12 @@ C:\Users\User\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistenc
 C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.dll
 C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.pdb
 C:\Users\User\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.dll
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.pdb
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\bin\Release\Persistence.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.vbprojResolveAssemblyReference.cache
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.Resources.resources
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.vbproj.GenerateResource.Cache
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.dll
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.pdb

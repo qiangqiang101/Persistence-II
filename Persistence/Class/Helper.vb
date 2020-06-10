@@ -31,6 +31,8 @@ Module Helper
 
     'Decor
     Public modDecor As String = "inm_persistence"
+    Public lastVehDecor As String = "inm_persistence_last_vehicle"
+    Public modDecor2 As String = "inm_persistence_2"
     Public nitroModDecor As String = "inm_nitro_active"
     Public flatbedModDecor As String = "inm_flatbed_installed"
     Public lastFbVehDecor As String = "inm_flatbed_last"
@@ -755,6 +757,7 @@ Module Helper
                         .CurrentBlip.Name = If(dispVehName, v.FullName, Game.GetGXTEntry("PVEHICLE"))
                     End If
                     .SetInt(modDecor, v.Owner)
+                    .SetBool(modDecor2, True)
                     .LockStatus = VehicleLockStatus.LockedForPlayer
                     .HasAlarm = True
                     If .Model.IsHelicopter Then .FreezePosition = True
@@ -859,6 +862,7 @@ Module Helper
                         If IsNitroModInstalled() Then .SetBool(nitroModDecor, t.HasNitro)
                         .IsPersistent = True
                         .SetInt(modDecor, t.Owner)
+                        .SetBool(modDecor2, True)
                     End With
                     listOfTrl.Add(trl)
                     veh.AttachToTrailer(trl)
@@ -962,6 +966,7 @@ Module Helper
                         If IsNitroModInstalled() Then .SetBool(nitroModDecor, t.HasNitro)
                         .IsPersistent = True
                         .SetInt(modDecor, t.Owner)
+                        .SetBool(modDecor2, True)
                     End With
                     listOfTrl.Add(trl)
                     veh.TowVehicle(trl, False)
@@ -1086,5 +1091,38 @@ Module Helper
             Decor.Lock()
         End If
     End Sub
+
+    Public Sub ReleasePersistLastVehicle()
+        Dim vehs = World.GetAllVehicles.Where(Function(x) x.IsVehiclePersist And x.IsPersistent And Not x.IsVehicleHasOwner And x.Handle <> Game.Player.Character.LastVehicle.Handle)
+        If Not vehs.Count = 0 Then
+            For Each veh In vehs
+                veh.SetBool(lastVehDecor, False)
+                veh.IsPersistent = False
+                veh.MarkAsNoLongerNeeded()
+            Next
+        End If
+    End Sub
+
+    <Extension>
+    Public Function IsVehiclePersist(veh As Vehicle) As Boolean
+        If veh.GetBool(lastVehDecor) = Nothing Then Return False
+        Return veh.GetBool(lastVehDecor)
+    End Function
+
+    <Extension>
+    Public Function IsVehicleHasOwner(veh As Vehicle) As Boolean
+        If veh.GetBool(modDecor2) = Nothing Then Return False
+        Return veh.GetBool(modDecor2)
+    End Function
+
+    <Extension>
+    Public Sub SetVehicleIsPersist(veh As Vehicle)
+        veh.SetBool(lastVehDecor, True)
+        veh.IsPersistent = True
+    End Sub
+
+    Public Function HowManyVehicleSpawnedByModOnWorldRightNow() As Integer
+        Return World.GetAllVehicles.Where(Function(x) x.IsVehiclePersist And x.IsPersistent And Not x.IsVehicleHasOwner And x.Handle <> Game.Player.Character.LastVehicle.Handle).Count
+    End Function
 
 End Module

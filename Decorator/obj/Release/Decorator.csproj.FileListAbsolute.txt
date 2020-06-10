@@ -11,3 +11,10 @@ C:\Users\User\Documents\GitHub\Persistence-II\Decorator\bin\Release\ScriptHookVD
 C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Decorator.csprojResolveAssemblyReference.cache
 C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.dll
 C:\Users\User\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.pdb
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\bin\Release\Metadata.dll
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\bin\Release\Metadata.pdb
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\bin\Release\ScriptHookVDotNet2.dll
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\bin\Release\ScriptHookVDotNet2.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\obj\Release\Decorator.csprojResolveAssemblyReference.cache
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.dll
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Decorator\obj\Release\Metadata.pdb

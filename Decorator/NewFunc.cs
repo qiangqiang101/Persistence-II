@@ -66,6 +66,9 @@ namespace Metadata
 
         public static void SetNitroEnabled(this Vehicle vehicle, bool toggle)
         {
+            if (!Function.Call<bool>(GTA.Native.Hash.HAS_NAMED_PTFX_ASSET_LOADED, "veh_xs_vehicle_mods"))
+                Function.Call(GTA.Native.Hash.REQUEST_NAMED_PTFX_ASSET, "veh_xs_vehicle_mods");
+
             Function.Call(Hash(0xC8E9B6B71B8E660D), vehicle, toggle);
         }
 

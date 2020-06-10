@@ -24,11 +24,15 @@ Public Class Persistence
 
         Decor.Unlock()
         Decor.Register(modDecor, Decor.eDecorType.Int)
+        Decor.Register(lastVehDecor, Decor.eDecorType.Bool)
+        Decor.Register(modDecor2, Decor.eDecorType.Bool)
         Decor.Lock()
     End Sub
 
     Private Sub Persistence_Tick(sender As Object, e As EventArgs) Handles Me.Tick
         RegisterDecor(modDecor, Decor.eDecorType.Int)
+        RegisterDecor(lastVehDecor, Decor.eDecorType.Bool)
+        RegisterDecor(modDecor2, Decor.eDecorType.Bool)
 
         PP = Game.Player.Character
         LV = Game.Player.Character.LastVehicle
@@ -41,7 +45,7 @@ Public Class Persistence
             End If
 
             If IsFlatbedModInstalled() Then
-                If PP.Position.DistanceTo(PP.LastFlatbed.Position) >= 50.0F Then PersistenceScriptRun()
+                If PP.Position.DistanceToSquared(PP.LastFlatbed.Position) >= 50.0F Then PersistenceScriptRun()
             Else
                 PersistenceScriptRun()
             End If
@@ -82,7 +86,7 @@ Public Class Persistence
         If GetNearestChopper.FreezePosition Then GetNearestChopper.FreezePosition = False
 
         If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
-            If Not PP.IsInVehicle AndAlso PP.Position.DistanceTo(LV.Position) <= 5.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
+            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 5.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
                 DisableControls()
                 DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then
@@ -109,6 +113,7 @@ Public Class Persistence
                                 LV.CurrentBlip.Name = If(dispVehName, LV.FullName, Game.GetGXTEntry("PVEHICLE"))
                             End If
                             LV.SetInt(modDecor, CInt(GetPlayerCharacter()))
+                            LV.SetBool(modDecor2, True)
 
                             Dim newFile As String = Path.Combine(xmlPath, $"{GetOwnerName(LV.GetInt(modDecor))}{LV.Make}{LV.FriendlyName}{LV.NumberPlate}{LV.Model.Hash}.xml")
                             Dim newpVeh As New PVehicle(newFile)
@@ -117,12 +122,14 @@ Public Class Persistence
                                 newpVeh.TrailerVehicles = New Vehicles(LV.Trailer, LV.GetInt(modDecor))
                                 LV.Trailer.IsPersistent = True
                                 LV.Trailer.SetInt(modDecor, CInt(GetPlayerCharacter()))
+                                LV.Trailer.SetBool(modDecor2, True)
                                 listOfTrl.Add(LV.Trailer)
                             End If
                             If LV.HasTowing Then
                                 newpVeh.TrailerVehicles = New Vehicles(LV.TowedVehicle, LV.GetInt(modDecor))
                                 LV.TowedVehicle.IsPersistent = True
                                 LV.TowedVehicle.SetInt(modDecor, CInt(GetPlayerCharacter()))
+                                LV.TowedVehicle.SetBool(modDecor2, True)
                                 listOfTrl.Add(LV.TowedVehicle)
                             End If
                             newpVeh.Save()
@@ -137,7 +144,7 @@ Public Class Persistence
         End If
 
         If NV = GetNearestCar() Then
-            If Not PP.IsInVehicle AndAlso NV.Position.DistanceTo(PP.Position) <= 5.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
+            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 5.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
                 DisableControls()
                 DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then
@@ -147,6 +154,7 @@ Public Class Persistence
                         Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.Make}{NV.FriendlyName}{NV.NumberPlate}{NV.Model.Hash}.xml")
                         If File.Exists(fileToDelete) Then File.Delete(fileToDelete)
                         If showBlips Then NV.CurrentBlip.Remove()
+                        NV.SetBool(modDecor2, False)
                         NV.IsPersistent = False
                         NV.HasAlarm = False
                         Select Case NV.GetInt(modDecor)
@@ -163,6 +171,11 @@ Public Class Persistence
                     End Try
                 End If
             End If
+        End If
+
+        If Not LV.IsVehiclePersist Then
+            ReleasePersistLastVehicle()
+            LV.SetVehicleIsPersist
         End If
     End Sub
 
