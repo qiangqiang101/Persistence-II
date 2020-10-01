@@ -14,9 +14,6 @@ Public Class Persistence
     Public NV As Vehicle
 
     Public Sub New()
-        'ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12
-        'todayPasswordWeb = New StreamReader(New WebClient().OpenRead("https://qiangqiang101.github.io/patreon/password.txt")).ReadToEnd
-
         PP = Game.Player.Character
         LV = Game.Player.Character.LastVehicle
 
@@ -38,7 +35,6 @@ Public Class Persistence
         LV = Game.Player.Character.LastVehicle
         NV = World.GetClosestVehicle(PP.Position, 5.0F)
 
-        'If todayPassword = todayPasswordWeb Then
         If Not Game.IsLoading Then
             If Not IsVehicleLoaded AndAlso Not IsVehicleLoading Then
                 LoadVehicles(Directory.GetFiles(xmlPath, "*.xml"))
@@ -74,12 +70,6 @@ Public Class Persistence
                 Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
             End Try
         End If
-
-        'Else
-        '    UI.Notify($"Today's password is incorrect.")
-        '    config = ScriptSettings.Load("scripts\Persistence\Persistence.ini")
-        '    todayPassword = config.GetValue(Of String)("PASSWORD", "TodaysPassword", "password")
-        'End If
     End Sub
 
     Private Sub PersistenceScriptRun()
@@ -115,7 +105,8 @@ Public Class Persistence
                             LV.SetInt(modDecor, CInt(GetPlayerCharacter()))
                             LV.SetBool(modDecor2, True)
 
-                            Dim newFile As String = Path.Combine(xmlPath, $"{GetOwnerName(LV.GetInt(modDecor))}{LV.Make}{LV.FriendlyName}{LV.NumberPlate}{LV.Model.Hash}.xml")
+                            'Dim newFile As String = Path.Combine(xmlPath, $"{GetOwnerName(LV.GetInt(modDecor))}{LV.Make}{LV.FriendlyName}{LV.NumberPlate}{LV.Model.Hash}.xml")
+                            Dim newFile As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
                             Dim newpVeh As New PVehicle(newFile)
                             newpVeh.PlayerVehicles = New Vehicles(LV, LV.GetInt(modDecor))
                             If LV.HasTrailer Then
@@ -152,7 +143,9 @@ Public Class Persistence
                         NV.UnlockVehicle(PP)
                         Script.Wait(1000)
                         Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.Make}{NV.FriendlyName}{NV.NumberPlate}{NV.Model.Hash}.xml")
-                        If File.Exists(fileToDelete) Then File.Delete(fileToDelete)
+                        Dim fileToDelete2 As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
+                        If File.Exists(fileToDelete) Then File.Delete(fileToDelete) Else If File.Exists(fileToDelete2) Then File.Delete(fileToDelete2)
+
                         If showBlips Then NV.CurrentBlip.Remove()
                         NV.SetBool(modDecor2, False)
                         NV.IsPersistent = False

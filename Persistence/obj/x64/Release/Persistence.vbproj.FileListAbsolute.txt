@@ -1,0 +1,2 @@
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\x64\Release\Persistence.Resources.resources
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\x64\Release\Persistence.vbproj.GenerateResource.Cache
