@@ -33,7 +33,7 @@ Public Class Persistence
 
         PP = Game.Player.Character
         LV = Game.Player.Character.LastVehicle
-        NV = World.GetClosestVehicle(PP.Position, 5.0F)
+        NV = World.GetClosestVehicle(PP.Position, 10.0F)
 
         If Not Game.IsLoading Then
             If Not IsVehicleLoaded AndAlso Not IsVehicleLoading Then
@@ -76,7 +76,7 @@ Public Class Persistence
         If GetNearestChopper.FreezePosition Then GetNearestChopper.FreezePosition = False
 
         If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
-            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 5.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
+            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
                 DisableControls()
                 DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then
@@ -105,7 +105,6 @@ Public Class Persistence
                             LV.SetInt(modDecor, CInt(GetPlayerCharacter()))
                             LV.SetBool(modDecor2, True)
 
-                            'Dim newFile As String = Path.Combine(xmlPath, $"{GetOwnerName(LV.GetInt(modDecor))}{LV.Make}{LV.FriendlyName}{LV.NumberPlate}{LV.Model.Hash}.xml")
                             Dim newFile As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
                             Dim newpVeh As New PVehicle(newFile)
                             newpVeh.PlayerVehicles = New Vehicles(LV, LV.GetInt(modDecor))
@@ -135,7 +134,7 @@ Public Class Persistence
         End If
 
         If NV = GetNearestCar() Then
-            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 5.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
+            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
                 DisableControls()
                 DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then

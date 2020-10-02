@@ -16,8 +16,6 @@ Module Helper
     Public showBlips As Boolean = True
     Public alarmVolume As Integer = 100
     Public saveDamage As Boolean = True
-    'Public todayPassword As String = "password"
-    'Public todayPasswordWeb As String = "password"
 
     'Path
     Public xmlPath As String = ".\scripts\Persistence\Vehicles\"
@@ -58,7 +56,7 @@ Module Helper
 
     <Extension>
     Public Function Make(vehicle As Vehicle) As String
-        Return Game.GetGXTEntry(vehicle.Model.Hash.GetVehicleMakeName)
+        Return Game.GetGXTEntry(Native.Function.Call(Of String)(&HF7AF4F159FF99F97UL, vehicle.Model.Hash))
     End Function
 
     <Extension>
@@ -165,7 +163,7 @@ Module Helper
         Dim carkey As Prop = World.CreateProp(carKeyModel, ped.Position + ped.ForwardVector, Vector3.Zero, True, False)
         carkey.AttachTo(ped, ped.GetBoneIndex(Bone.PH_R_Hand), Vector3.Zero, Vector3.Zero)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, 49)
-        vehicle.IndicatorsOnOff
+        Indicator.veh = vehicle
         Script.Wait(500)
         Using Stream As New WaveStream(File.OpenRead($"{soundPath}lock.wav"))
             Stream.Volume = alarmVolume
@@ -175,9 +173,10 @@ Module Helper
         End Using
         vehicle.LockStatus = VehicleLockStatus.LockedForPlayer
         vehicle.HasAlarm = True
-        Script.Wait(1000)
+        Script.Wait(500)
         carkey.Detach()
         carkey.Delete()
+        Indicator.veh = Nothing
     End Sub
 
     <Extension>
@@ -186,7 +185,7 @@ Module Helper
         Dim carkey As Prop = World.CreateProp(carKeyModel, ped.Position + ped.ForwardVector, Vector3.Zero, True, False)
         carkey.AttachTo(ped, ped.GetBoneIndex(Bone.PH_R_Hand), Vector3.Zero, Vector3.Zero)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, 49)
-        vehicle.IndicatorsOnOff
+        Indicator.veh = vehicle
         Script.Wait(500)
         Using Stream As New WaveStream(File.OpenRead($"{soundPath}unlock.wav"))
             Stream.Volume = alarmVolume
@@ -195,9 +194,10 @@ Module Helper
             End Using
         End Using
         vehicle.LockStatus = VehicleLockStatus.Unlocked
-        Script.Wait(1000)
+        Script.Wait(500)
         carkey.Detach()
         carkey.Delete()
+        Indicator.veh = Nothing
     End Sub
 
     Public Function GetNearestChopper() As Vehicle
@@ -249,7 +249,6 @@ Module Helper
         alarmVolume = config.GetValue(Of Integer)("GENERAL", "AlarmVol", 100)
         saveDamage = config.GetValue(Of Boolean)("GENERAL", "SaveDamage", True)
         saveKey = config.GetValue(Of GTA.Control)("CONTROL", "SaveKey", GTA.Control.Context)
-        'todayPassword = config.GetValue(Of String)("PASSWORD", "TodaysPassword", "password")
     End Sub
 
     Private Sub CreateConfig()
@@ -259,7 +258,6 @@ Module Helper
             config.SetValue(Of Integer)("GENERAL", "AlarmVol", 100)
             config.SetValue(Of Boolean)("GENERAL", "SaveDamage", True)
             config.SetValue(Of GTA.Control)("CONTROL", "SaveKey", GTA.Control.Context)
-            'config.SetValue(Of String)("PASSWORD", "TodaysPassword", "password")
             config.Save()
         End If
     End Sub
@@ -866,6 +864,7 @@ Module Helper
                     End With
                     listOfTrl.Add(trl)
                     veh.AttachToTrailer(trl)
+                    Script.Wait(500)
                 End If
                 If v.HasTowing Then
                     t = pv.TrailerVehicles
@@ -970,6 +969,7 @@ Module Helper
                     End With
                     listOfTrl.Add(trl)
                     veh.TowVehicle(trl, False)
+                    Script.Wait(500)
                 End If
             Next
         Catch ex As Exception
@@ -1056,14 +1056,6 @@ Module Helper
 
     Public Sub DisableControls()
         Game.DisableControlThisFrame(0, Control.Talk)
-    End Sub
-
-    <Extension>
-    Public Sub IndicatorsOnOff(veh As Vehicle)
-        If veh.HasBone("indicator_lf") Then World.DrawLightWithRange(veh.GetBoneCoord("indicator_lf"), Color.Orange, 1.0F, 2.0F)
-        If veh.HasBone("indicator_rr") Then World.DrawLightWithRange(veh.GetBoneCoord("indicator_rr"), Color.Orange, 1.0F, 2.0F)
-        If veh.HasBone("indicator_lr") Then World.DrawLightWithRange(veh.GetBoneCoord("indicator_lr"), Color.Orange, 1.0F, 2.0F)
-        If veh.HasBone("indicator_rf") Then World.DrawLightWithRange(veh.GetBoneCoord("indicator_rf"), Color.Orange, 1.0F, 2.0F)
     End Sub
 
     Public Function IsNitroModInstalled() As Boolean

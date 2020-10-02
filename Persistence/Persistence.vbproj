@@ -72,8 +72,7 @@
     </Reference>
     <Reference Include="ScriptHookVDotNet2, Version=2.10.9.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
-      <Private>False</Private>
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -99,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Class\CFGRead.vb" />
     <Compile Include="Class\Helper.vb" />
+    <Compile Include="Class\Indicator.vb" />
     <Compile Include="Class\Logger.vb" />
     <Compile Include="Persistence.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
@@ -117,7 +117,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Class\PVehicle.vb" />
-    <Compile Include="Class\ReadMemory.vb" />
     <Compile Include="Class\SoundPlayer.vb" />
   </ItemGroup>
   <ItemGroup>
