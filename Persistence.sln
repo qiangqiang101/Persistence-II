@@ -7,6 +7,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "Persistence", "Persistence\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decorator", "Decorator\Decorator.csproj", "{DA3CBCD5-2F3C-4206-9422-7B6D5D43BA56}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "PatchNitro", "PatchNitro\PatchNitro.vbproj", "{C1445B16-E5C7-4F06-BC05-7B1A956ECD52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{DA3CBCD5-2F3C-4206-9422-7B6D5D43BA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA3CBCD5-2F3C-4206-9422-7B6D5D43BA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA3CBCD5-2F3C-4206-9422-7B6D5D43BA56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1445B16-E5C7-4F06-BC05-7B1A956ECD52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1445B16-E5C7-4F06-BC05-7B1A956ECD52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1445B16-E5C7-4F06-BC05-7B1A956ECD52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1445B16-E5C7-4F06-BC05-7B1A956ECD52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

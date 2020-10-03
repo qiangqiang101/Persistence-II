@@ -1,0 +1,10 @@
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\bin\Release\PatchNitro.exe.config
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\bin\Release\PatchNitro.exe
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\bin\Release\PatchNitro.pdb
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\bin\Release\PatchNitro.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.vbprojResolveAssemblyReference.cache
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.Resources.resources
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.vbproj.GenerateResource.Cache
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.exe
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\PatchNitro\obj\Release\PatchNitro.pdb

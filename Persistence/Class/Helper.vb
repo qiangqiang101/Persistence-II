@@ -736,7 +736,7 @@ Module Helper
                     .FuelLevel = v.FuelLevel
                     .RoofState = v.RoofState
                     .SteeringScale = v.SteeringScale
-                    If IsNitroModInstalled() Then .SetBool(nitroModDecor, v.HasNitro)
+                    If IsNitroModInstalled() Then .SetInt(nitroModDecor, v.HasNitro)
                     .IsPersistent = True
                     If showBlips Then
                         .AddBlip()
@@ -857,7 +857,7 @@ Module Helper
                         .FuelLevel = t.FuelLevel
                         .RoofState = t.RoofState
                         .SteeringScale = t.SteeringScale
-                        If IsNitroModInstalled() Then .SetBool(nitroModDecor, t.HasNitro)
+                        If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
                         .IsPersistent = True
                         .SetInt(modDecor, t.Owner)
                         .SetBool(modDecor2, True)
@@ -962,7 +962,7 @@ Module Helper
                         .FuelLevel = t.FuelLevel
                         .RoofState = t.RoofState
                         .SteeringScale = t.SteeringScale
-                        If IsNitroModInstalled() Then .SetBool(nitroModDecor, t.HasNitro)
+                        If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
                         .IsPersistent = True
                         .SetInt(modDecor, t.Owner)
                         .SetBool(modDecor2, True)
@@ -1059,7 +1059,7 @@ Module Helper
     End Sub
 
     Public Function IsNitroModInstalled() As Boolean
-        Return Decor.Registered(nitroModDecor, Decor.eDecorType.Bool)
+        Return Decor.Registered(nitroModDecor, Decor.eDecorType.Int)
     End Function
 
     <Extension()>

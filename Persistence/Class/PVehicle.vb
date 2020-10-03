@@ -32,7 +32,7 @@ Public Structure PVehicle
 
     Public Function ReadFromFile() As PVehicle
         If Not File.Exists(FileName) Then
-            Return New PVehicle(FileName) With {.PlayerVehicles = PlayerVehicles}
+            Return New PVehicle(FileName) With {.PlayerVehicles = PlayerVehicles, .TrailerVehicles = TrailerVehicles}
         End If
 
         Try
@@ -42,7 +42,7 @@ Public Structure PVehicle
             reader.Close()
             Return instance
         Catch ex As Exception
-            Return New PVehicle(FileName) With {.PlayerVehicles = PlayerVehicles}
+            Return New PVehicle(FileName) With {.PlayerVehicles = PlayerVehicles, .TrailerVehicles = TrailerVehicles}
         End Try
     End Function
 
@@ -135,7 +135,7 @@ Public Structure Vehicles
     Public SteeringScale As Single
     Public HasTrailer As Boolean
     Public HasTowing As Boolean
-    Public HasNitro As Boolean
+    Public HasNitro As Integer
     Public Livery1 As Integer
 
     Public Sub New(vehicle As Vehicle, _owner As Integer)
@@ -241,7 +241,7 @@ Public Structure Vehicles
             HasTrailer = vehicle.HasTrailer
             HasTowing = vehicle.HasTowing
             Livery1 = vehicle.Livery
-            If IsNitroModInstalled() Then HasNitro = vehicle.GetBool(nitroModDecor) Else HasNitro = False
+            If IsNitroModInstalled() Then HasNitro = vehicle.GetInt(nitroModDecor) Else HasNitro = 0
         Catch ex As Exception
             Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
         End Try

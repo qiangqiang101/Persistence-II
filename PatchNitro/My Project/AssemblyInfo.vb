@@ -8,17 +8,17 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Persistence 2")>
-<Assembly: AssemblyDescription("")>
-<Assembly: AssemblyCompany("Zettabyte Technology")>
-<Assembly: AssemblyProduct("Persistence 2")>
-<Assembly: AssemblyCopyright("Copyright © 2016-2020 Zettabyte Technology")>
-<Assembly: AssemblyTrademark("")> 
+<Assembly: AssemblyTitle("PatchNitro")>
+<Assembly: AssemblyDescription("Patch for Nitro for All Vehicles update")>
+<Assembly: AssemblyCompany("")>
+<Assembly: AssemblyProduct("PatchNitro")>
+<Assembly: AssemblyCopyright("Copyright © 2020 Zettabyte Technology")>
+<Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
 
 'The following GUID is for the ID of the typelib if this project is exposed to COM
-<Assembly: Guid("afe18813-df1c-47b7-908b-2015c12bf2ee")>
+<Assembly: Guid("72e4b751-d63a-424d-885d-f51ab56188b3")>
 
 ' Version information for an assembly consists of the following four values:
 '
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")> 
 
-<Assembly: AssemblyVersion("1.6.103.0")>
-<Assembly: AssemblyFileVersion("1.6.103.0")>
+<Assembly: AssemblyVersion("1.0.103.0")>
+<Assembly: AssemblyFileVersion("1.0.103.0")>
