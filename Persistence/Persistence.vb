@@ -40,13 +40,14 @@ Public Class Persistence
                 LoadVehicles(Directory.GetFiles(xmlPath, "*.xml"))
             End If
 
-            If IsFlatbedModInstalled() Then
-                If PP.Position.DistanceToSquared(PP.LastFlatbed.Position) >= 50.0F Then PersistenceScriptRun()
-            Else
-                PersistenceScriptRun()
-            End If
+            PersistenceScriptRun()
 
             If showBlips Then PatchRedBlips()
+        End If
+
+        If Cheating("pause persistence2") Then
+            pause = Not pause
+            UI.ShowHelpMessage($"Persistence II mod is {If(pause, "Paused.", "Running.")}")
         End If
 
         If Cheating("reload persistence2") Then
@@ -73,12 +74,13 @@ Public Class Persistence
     End Sub
 
     Private Sub PersistenceScriptRun()
+
         If GetNearestChopper.FreezePosition Then GetNearestChopper.FreezePosition = False
 
-        If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
-            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
-                DisableControls()
-                DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
+            If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
+                If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
+                    DisableControls()
+                If Not pause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then
                     Try
                         Dim veh As New Vehicles(LV, GetPlayerCharacter)
@@ -128,42 +130,42 @@ Public Class Persistence
                         End If
                     Catch ex As Exception
                         Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
-                    End Try
+                        End Try
+                    End If
                 End If
             End If
-        End If
 
-        If NV = GetNearestCar() Then
-            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
-                DisableControls()
-                DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
+            If NV = GetNearestCar() Then
+                If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
+                    DisableControls()
+                If Not pause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
                 If Game.IsControlJustReleased(0, saveKey) Then
-                    Try
-                        NV.UnlockVehicle(PP)
-                        Script.Wait(1000)
-                        Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.Make}{NV.FriendlyName}{NV.NumberPlate}{NV.Model.Hash}.xml")
-                        Dim fileToDelete2 As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
-                        If File.Exists(fileToDelete) Then File.Delete(fileToDelete) Else If File.Exists(fileToDelete2) Then File.Delete(fileToDelete2)
+                        Try
+                            NV.UnlockVehicle(PP)
+                            Script.Wait(1000)
+                            Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.Make}{NV.FriendlyName}{NV.NumberPlate}{NV.Model.Hash}.xml")
+                            Dim fileToDelete2 As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
+                            If File.Exists(fileToDelete) Then File.Delete(fileToDelete) Else If File.Exists(fileToDelete2) Then File.Delete(fileToDelete2)
 
-                        If showBlips Then NV.CurrentBlip.Remove()
-                        NV.SetBool(modDecor2, False)
-                        NV.IsPersistent = False
-                        NV.HasAlarm = False
-                        Select Case NV.GetInt(modDecor)
-                            Case 0, 1, 2, 3
-                                If NV.HasTrailer Then If listOfTrl.Contains(NV.Trailer) Then listOfTrl.Remove(NV.Trailer)
-                                If NV.HasTowing Then If listOfTrl.Contains(NV.TowedVehicle) Then listOfTrl.Remove(NV.TowedVehicle)
-                                listOfVeh.Remove(NV)
-                                Decor.Unlock()
-                                NV.Remove(modDecor)
-                                Decor.Lock()
-                        End Select
-                    Catch ex As Exception
-                        Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
-                    End Try
+                            If showBlips Then NV.CurrentBlip.Remove()
+                            NV.SetBool(modDecor2, False)
+                            NV.IsPersistent = False
+                            NV.HasAlarm = False
+                            Select Case NV.GetInt(modDecor)
+                                Case 0, 1, 2, 3
+                                    If NV.HasTrailer Then If listOfTrl.Contains(NV.Trailer) Then listOfTrl.Remove(NV.Trailer)
+                                    If NV.HasTowing Then If listOfTrl.Contains(NV.TowedVehicle) Then listOfTrl.Remove(NV.TowedVehicle)
+                                    listOfVeh.Remove(NV)
+                                    Decor.Unlock()
+                                    NV.Remove(modDecor)
+                                    Decor.Lock()
+                            End Select
+                        Catch ex As Exception
+                            Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
+                        End Try
+                    End If
                 End If
             End If
-        End If
 
         If Not LV.IsVehiclePersist Then
             ReleasePersistLastVehicle()

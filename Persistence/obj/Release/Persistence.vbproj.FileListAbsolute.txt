@@ -30,3 +30,4 @@ E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Per
 E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.pdb
 E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\bin\Release\ScriptHookVDotNet2.dll
 E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\bin\Release\ScriptHookVDotNet2.xml
+E:\Users\Bartholomew\Documents\GitHub\Persistence-II\Persistence\obj\Release\Persistence.vbprojResolveAssemblyReference.cache

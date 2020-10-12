@@ -65,11 +65,6 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Metadata, Version=1.0.613.1, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>D:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\scripts\Metadata.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="ScriptHookVDotNet2, Version=2.10.9.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
@@ -140,6 +135,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Decorator\Decorator.csproj">
+      <Project>{da3cbcd5-2f3c-4206-9422-7b6d5d43ba56}</Project>
+      <Name>Decorator</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.VisualBasic.targets" />
   <PropertyGroup>

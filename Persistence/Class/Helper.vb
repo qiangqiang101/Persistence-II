@@ -33,9 +33,12 @@ Module Helper
     Public modDecor2 As String = "inm_persistence_2"
     Public nitroModDecor As String = "inm_nitro_active"
     Public flatbedModDecor As String = "inm_flatbed_installed"
+    Public carCarrierModDecor As String = "inm_cctm_installed"
     Public lastFbVehDecor As String = "inm_flatbed_last"
+    Public lastCCTruckDecor As String = "inm_cctm_truck"
 
     Public carKeyModel As Model = "lr_prop_carkey_fob"
+    Public pause As Boolean = False
 
     Public Function GetPlayerCharacter() As Integer
         Select Case Game.Player.Character.Model
@@ -1071,9 +1074,18 @@ Module Helper
         Return Decor.Registered(flatbedModDecor, Decor.eDecorType.Bool)
     End Function
 
+    Public Function IsCarCarrierModInstalled() As Boolean
+        Return Decor.Registered(carCarrierModDecor, Decor.eDecorType.Bool)
+    End Function
+
     <Extension>
     Public Function LastFlatbed(ped As Ped) As Vehicle
         Return New Vehicle(ped.GetInt(lastFbVehDecor))
+    End Function
+
+    <Extension>
+    Public Function LastTrailerTruck(ped As Ped) As Vehicle
+        Return New Vehicle(ped.GetInt(lastCCTruckDecor))
     End Function
 
     Public Sub RegisterDecor(d As String, t As Decor.eDecorType)
