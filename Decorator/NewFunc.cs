@@ -267,5 +267,7 @@ namespace Metadata
         {
             return (Hash)hash;
         }
+
+        public static bool HideHud = false;
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Logger.cs" />
     <Compile Include="NewFunc.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scripts.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
