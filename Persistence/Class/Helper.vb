@@ -6,6 +6,7 @@ Imports GTA
 Imports GTA.Math
 Imports GTA.Native
 Imports Metadata
+Imports Metadata.VehicleEx
 
 Module Helper
 
@@ -36,9 +37,10 @@ Module Helper
     Public carCarrierModDecor As String = "inm_cctm_installed"
     Public lastFbVehDecor As String = "inm_flatbed_last"
     Public lastCCTruckDecor As String = "inm_cctm_truck"
+    Public modDecor3 As String = "inm_persistence_3"
 
     Public carKeyModel As Model = "lr_prop_carkey_fob"
-    Public pause As Boolean = False
+    Public isPause As Boolean = False
 
     Public Function GetPlayerCharacter() As Integer
         Select Case Game.Player.Character.Model
@@ -53,38 +55,23 @@ Module Helper
         End Select
     End Function
 
-    Public Function Cheating(Cheat As String) As Boolean
-        Return Native.Function.Call(Of Boolean)(Hash._0x557E43C447E700A8, Game.GenerateHash(Cheat))
+    Public Function IsLoading() As Boolean
+        Return Native.Function.Call(Of Boolean)(Hash.GET_IS_LOADING_SCREEN_ACTIVE)
     End Function
 
-    <Extension>
-    Public Function Make(vehicle As Vehicle) As String
-        Return Game.GetGXTEntry(Native.Function.Call(Of String)(&HF7AF4F159FF99F97UL, vehicle.Model.Hash))
-    End Function
-
-    <Extension>
-    Public Function WheelsVariation(vehicle As Vehicle) As Boolean
-        Return Native.Function.Call(Of Boolean)(Native.Hash.GET_VEHICLE_MOD_VARIATION, vehicle, VehicleMod.FrontWheels)
-    End Function
-
-    <Extension>
-    Public Function XenonHeadlightsColor(ByVal veh As Vehicle) As Integer
-        Return Native.Function.Call(Of Integer)(&H3DFF319A831E0CDB, veh.Handle)
-    End Function
-
-    <Extension()>
-    Public Sub XenonHeadlightsColor(ByVal veh As Vehicle, colorID As Integer)
-        Native.Function.Call(&HE41033B25D003A07UL, veh.Handle, colorID)
-    End Sub
+    '<Extension>
+    'Public Function WheelsVariation(vehicle As Vehicle) As Boolean
+    '    Return Native.Function.Call(Of Boolean)(Hash.GET_VEHICLE_MOD_VARIATION, vehicle, CInt(VehicleModType.FrontWheel))
+    'End Function
 
     <Extension()>
     Public Function Livery2(veh As Vehicle) As Integer
-        Return Native.Function.Call(Of Integer)(DirectCast(&H60190048C0764A26UL, Hash), veh.Handle)
+        Return Native.Function.Call(Of Integer)(Hash.GET_VEHICLE_LIVERY2, veh)
     End Function
 
     <Extension()>
     Public Sub Livery2(veh As Vehicle, liv As Integer)
-        Native.Function.Call(DirectCast(&HA6D3A8750DC73270UL, Hash), veh.Handle, liv)
+        Native.Function.Call(Hash.SET_VEHICLE_LIVERY2, veh, liv)
     End Sub
 
     <Extension>
@@ -102,10 +89,11 @@ Module Helper
                 Return BlipSprite.Helicopter
             Case vehicle.Model.IsPlane
                 Return BlipSprite.Plane
-            Case vehicle.Model.IsQuadbike
+            Case vehicle.Model.IsQuadBike
                 Return BlipSprite.QuadBike
+            Case Else
+                Return BlipSprite.PersonalVehicleCar
         End Select
-        Return BlipSprite.PersonalVehicleCar
     End Function
 
     <Extension>
@@ -127,32 +115,15 @@ Module Helper
     Public Function GetOwnerName(owner As Integer) As String
         Select Case owner
             Case 0
-                Return Game.GetGXTEntry("ACCNA_MIKE")
+                Return Game.GetLocalizedString("ACCNA_MIKE")
             Case 1
-                Return Game.GetGXTEntry("ACCNA_FRANKLIN")
+                Return Game.GetLocalizedString("ACCNA_FRANKLIN")
             Case 2
-                Return Game.GetGXTEntry("ACCNA_TREVOR")
+                Return Game.GetLocalizedString("ACCNA_TREVOR")
             Case 3
                 Return Game.Player.Name
         End Select
         Return Game.Player.Name
-    End Function
-
-    Public Sub DisplayHelpTextThisFrame(helpText As String, Optional Shape As Integer = -1)
-        Native.Function.Call(Native.Hash._SET_TEXT_COMPONENT_FORMAT, "CELL_EMAIL_BCON")
-        Const maxStringLength As Integer = 99
-
-        Dim i As Integer = 0
-        While i < helpText.Length
-            Native.Function.Call(Native.Hash._0x6C188BE134E074AA, helpText.Substring(i, System.Math.Min(maxStringLength, helpText.Length - i)))
-            i += maxStringLength
-        End While
-        Native.Function.Call(Native.Hash._DISPLAY_HELP_TEXT_FROM_STRING_LABEL, 0, 0, 1, Shape)
-    End Sub
-
-    <Extension>
-    Public Function ToColor(vs As VsColor) As Color
-        Return Color.FromArgb(vs.Red, vs.Green, vs.Blue)
     End Function
 
     <Extension>
@@ -164,7 +135,7 @@ Module Helper
     Public Sub LockVehicle(vehicle As Vehicle, ped As Ped)
         ped.SetPedCurrentWeaponVisible
         Dim carkey As Prop = World.CreateProp(carKeyModel, ped.Position + ped.ForwardVector, Vector3.Zero, True, False)
-        carkey.AttachTo(ped, ped.GetBoneIndex(Bone.PH_R_Hand), Vector3.Zero, Vector3.Zero)
+        carkey.AttachTo(ped, ped.Bones.Item(Bone.PHRightHand).Position)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, 49)
         Indicator.veh = vehicle
         Script.Wait(500)
@@ -174,8 +145,8 @@ Module Helper
                 player.Play()
             End Using
         End Using
-        vehicle.LockStatus = VehicleLockStatus.LockedForPlayer
-        vehicle.HasAlarm = True
+        vehicle.LockStatus = VehicleLockStatus.PlayerCannotEnter
+        vehicle.IsAlarmSet = True
         Script.Wait(500)
         carkey.Detach()
         carkey.Delete()
@@ -186,7 +157,7 @@ Module Helper
     Public Sub UnlockVehicle(vehicle As Vehicle, ped As Ped)
         ped.SetPedCurrentWeaponVisible
         Dim carkey As Prop = World.CreateProp(carKeyModel, ped.Position + ped.ForwardVector, Vector3.Zero, True, False)
-        carkey.AttachTo(ped, ped.GetBoneIndex(Bone.PH_R_Hand), Vector3.Zero, Vector3.Zero)
+        carkey.AttachTo(ped, ped.Bones.Item(Bone.PHRightHand).Position)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, 49)
         Indicator.veh = vehicle
         Script.Wait(500)
@@ -205,30 +176,30 @@ Module Helper
 
     Public Function GetNearestChopper() As Vehicle
         Try
-            Dim loe = listOfVeh.ToArray.Where(Function(x) System.Math.Abs(x.Position.DistanceTo(Game.Player.Character.Position)) >= 50.0F).Where(Function(x) x.Model.IsHelicopter).Where(Function(x) x.FreezePosition)
+            Dim loe = listOfVeh.ToArray.Where(Function(x) System.Math.Abs(x.Position.DistanceTo(Game.Player.Character.Position)) >= 50.0F).Where(Function(x) x.Model.IsHelicopter).Where(Function(x) x.IsPositionFrozen)
             If loe.Count = 0 Then
-                Return New Vehicle(0)
+                Return Nothing
             Else
                 Return loe.First
             End If
         Catch ex As Exception
             Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
         End Try
-        Return New Vehicle(0)
+        Return Nothing
     End Function
 
     Public Function GetNearestCar() As Vehicle
         Try
             Dim loe = listOfVeh.ToArray.OrderBy(Function(x) System.Math.Abs(x.Position.DistanceTo(Game.Player.Character.Position)))
             If loe.Count = 0 Then
-                Return New Vehicle(0)
+                Return Nothing
             Else
                 Return loe.First
             End If
         Catch ex As Exception
             Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
         End Try
-        Return New Vehicle(0)
+        Return Nothing
     End Function
 
     Public Sub SoundPlayer(waveFile As String)
@@ -618,8 +589,8 @@ Module Helper
 
     <Extension>
     Public Function FullName(vehicle As Vehicle) As String
-        Dim make As String = vehicle.Make
-        Dim name As String = vehicle.FriendlyName
+        Dim make As String = Vehicle.GetModelMakeName(vehicle.Model)
+        Dim name As String = Vehicle.GetModelDisplayName(vehicle.Model)
         Dim full As String = $"{make} {name}"
         If make = "NULL" Then full = name
         Return full
@@ -1058,12 +1029,12 @@ Module Helper
     End Sub
 
     Public Sub DisableControls()
-        Game.DisableControlThisFrame(0, Control.Talk)
+        Game.DisableControlThisFrame(Control.Talk)
     End Sub
 
-    Public Function IsNitroModInstalled() As Boolean
-        Return Decor.Registered(nitroModDecor, Decor.eDecorType.Int)
-    End Function
+    'Public Function IsNitroModInstalled() As Boolean
+    '    Return Decor.Registered(nitroModDecor, Decor.eDecorType.Int)
+    'End Function
 
     <Extension()>
     Public Sub SetPedCurrentWeaponVisible(ped As Ped)
@@ -1078,15 +1049,15 @@ Module Helper
         Return Decor.Registered(carCarrierModDecor, Decor.eDecorType.Bool)
     End Function
 
-    <Extension>
-    Public Function LastFlatbed(ped As Ped) As Vehicle
-        Return New Vehicle(ped.GetInt(lastFbVehDecor))
-    End Function
+    '<Extension>
+    'Public Function LastFlatbed(ped As Ped) As Vehicle
+    '    Return New Vehicle(ped.GetInt(lastFbVehDecor))
+    'End Function
 
-    <Extension>
-    Public Function LastTrailerTruck(ped As Ped) As Vehicle
-        Return New Vehicle(ped.GetInt(lastCCTruckDecor))
-    End Function
+    '<Extension>
+    'Public Function LastTrailerTruck(ped As Ped) As Vehicle
+    '    Return New Vehicle(ped.GetInt(lastCCTruckDecor))
+    'End Function
 
     Public Sub RegisterDecor(d As String, t As Decor.eDecorType)
         If Not Decor.Registered(d, t) Then

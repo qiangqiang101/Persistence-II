@@ -32,8 +32,8 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ScriptHookVDotNet2">
-      <HintPath>E:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\ScriptHookVDotNet2.dll</HintPath>
+    <Reference Include="ScriptHookVDotNet3">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V Enhanced\ScriptHookVDotNet3.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -47,7 +47,7 @@
   <ItemGroup>
     <Compile Include="Decorator.cs" />
     <Compile Include="Logger.cs" />
-    <Compile Include="NewFunc.cs" />
+    <Compile Include="VehicleEx.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scripts.cs" />
   </ItemGroup>

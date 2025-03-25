@@ -35,7 +35,7 @@ Public Class Persistence
         LV = Game.Player.Character.LastVehicle
         NV = World.GetClosestVehicle(PP.Position, 10.0F)
 
-        If Not Game.IsLoading Then
+        If Not IsLoading() Then
             If Not IsVehicleLoaded AndAlso Not IsVehicleLoading Then
                 LoadVehicles(Directory.GetFiles(xmlPath, "*.xml"))
             End If
@@ -45,16 +45,16 @@ Public Class Persistence
             If showBlips Then PatchRedBlips()
         End If
 
-        If Cheating("pause persistence2") Then
-            pause = Not pause
-            UI.ShowHelpMessage($"Persistence II mod is {If(pause, "Paused.", "Running.")}")
+        If VehicleEx.IsCheating("pause persistence2") Then
+            isPause = Not isPause
+            UI.Screen.ShowHelpTextThisFrame($"Persistence II mod is {If(isPause, "Paused.", "Running.")}", True)
         End If
 
-        If Cheating("reload persistence2") Then
+        If VehicleEx.IsCheating("reload persistence2") Then
             Try
                 For Each veh As Vehicle In listOfVeh
                     If veh.ExistsOn(modDecor) Then
-                        If showBlips Then veh.CurrentBlip.Remove()
+                        If showBlips Then veh.AttachedBlip.Delete()
                         veh.Delete()
                     End If
                 Next
@@ -75,39 +75,39 @@ Public Class Persistence
 
     Private Sub PersistenceScriptRun()
 
-        If GetNearestChopper.FreezePosition Then GetNearestChopper.FreezePosition = False
+        If GetNearestChopper.IsPositionFrozen Then GetNearestChopper.IsPositionFrozen = False
 
-            If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
+        If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
                 If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
                     DisableControls()
-                If Not pause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
-                If Game.IsControlJustReleased(0, saveKey) Then
+                If Not isPause Then UI.Screen.ShowHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName), True)
+                If Game.IsControlJustReleased(saveKey) Then
                     Try
                         Dim veh As New Vehicles(LV, GetPlayerCharacter)
                         If Not listOfVeh.Contains(LV) Then
                             listOfVeh.Add(LV)
                             LV.IsPersistent = True
-                            LV.HasAlarm = True
+                            LV.IsAlarmSet = True
                             If showBlips Then
                                 LV.AddBlip()
-                                LV.CurrentBlip.Sprite = LV.GetSprite
+                                LV.AttachedBlip.Sprite = LV.GetSprite
                                 Select Case veh.Owner
                                     Case 0
-                                        LV.CurrentBlip.Color = BlipColor.Michael
+                                        LV.AttachedBlip.Color = BlipColor.Michael
                                     Case 1
-                                        LV.CurrentBlip.Color = BlipColor.Franklin
+                                        LV.AttachedBlip.Color = BlipColor.Franklin
                                     Case 2
-                                        LV.CurrentBlip.Color = BlipColor.Trevor
+                                        LV.AttachedBlip.Color = BlipColor.Trevor
                                     Case 3
-                                        LV.CurrentBlip.Color = BlipColor.NetPlayer1
+                                        LV.AttachedBlip.Color = BlipColor.NetPlayer1
                                 End Select
-                                LV.CurrentBlip.IsShortRange = True
-                                LV.CurrentBlip.Name = If(dispVehName, LV.FullName, Game.GetGXTEntry("PVEHICLE"))
+                                LV.AttachedBlip.IsShortRange = True
+                                LV.AttachedBlip.Name = If(dispVehName, LV.FullName, Game.GetLocalizedString("PVEHICLE"))
                             End If
                             LV.SetInt(modDecor, CInt(GetPlayerCharacter()))
                             LV.SetBool(modDecor2, True)
 
-                            Dim newFile As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
+                            Dim newFile As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.Mods.LicensePlate}.xml")
                             Dim newpVeh As New PVehicle(newFile)
                             newpVeh.PlayerVehicles = New Vehicles(LV, LV.GetInt(modDecor))
                             If LV.HasTrailer Then
@@ -130,41 +130,41 @@ Public Class Persistence
                         End If
                     Catch ex As Exception
                         Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
-                        End Try
-                    End If
+                    End Try
                 End If
+            End If
             End If
 
             If NV = GetNearestCar() Then
                 If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
                     DisableControls()
-                If Not pause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
-                If Game.IsControlJustReleased(0, saveKey) Then
-                        Try
-                            NV.UnlockVehicle(PP)
-                            Script.Wait(1000)
-                            Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.Make}{NV.FriendlyName}{NV.NumberPlate}{NV.Model.Hash}.xml")
-                            Dim fileToDelete2 As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.NumberPlate}.xml")
-                            If File.Exists(fileToDelete) Then File.Delete(fileToDelete) Else If File.Exists(fileToDelete2) Then File.Delete(fileToDelete2)
+                If Not isPause Then UI.Screen.ShowHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName), True)
+                If Game.IsControlJustReleased(saveKey) Then
+                    Try
+                        NV.UnlockVehicle(PP)
+                        Script.Wait(1000)
+                        Dim fileToDelete As String = Path.Combine(xmlPath, $"{GetOwnerName(NV.GetInt(modDecor))}{NV.GetModelMakeName(NV.Model)}{NV.GetModelDisplayName(NV.Model)}{NV.Mods.LicensePlate}{NV.Model.Hash}.xml")
+                        Dim fileToDelete2 As String = Path.Combine(xmlPath, $"{LV.GetInt(modDecor)}_{LV.Model.Hash}_{LV.Mods.LicensePlate}.xml")
+                        If File.Exists(fileToDelete) Then File.Delete(fileToDelete) Else If File.Exists(fileToDelete2) Then File.Delete(fileToDelete2)
 
-                            If showBlips Then NV.CurrentBlip.Remove()
-                            NV.SetBool(modDecor2, False)
-                            NV.IsPersistent = False
-                            NV.HasAlarm = False
-                            Select Case NV.GetInt(modDecor)
-                                Case 0, 1, 2, 3
-                                    If NV.HasTrailer Then If listOfTrl.Contains(NV.Trailer) Then listOfTrl.Remove(NV.Trailer)
-                                    If NV.HasTowing Then If listOfTrl.Contains(NV.TowedVehicle) Then listOfTrl.Remove(NV.TowedVehicle)
-                                    listOfVeh.Remove(NV)
-                                    Decor.Unlock()
-                                    NV.Remove(modDecor)
-                                    Decor.Lock()
-                            End Select
-                        Catch ex As Exception
-                            Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
-                        End Try
-                    End If
+                        If showBlips Then NV.AttachedBlip.Delete()
+                        NV.SetBool(modDecor2, False)
+                        NV.IsPersistent = False
+                        NV.IsAlarmSet = False
+                        Select Case NV.GetInt(modDecor)
+                            Case 0, 1, 2, 3
+                                If NV.HasTrailer Then If listOfTrl.Contains(NV.Trailer) Then listOfTrl.Remove(NV.Trailer)
+                                If NV.HasTowing Then If listOfTrl.Contains(NV.TowedVehicle) Then listOfTrl.Remove(NV.TowedVehicle)
+                                listOfVeh.Remove(NV)
+                                Decor.Unlock()
+                                NV.Remove(modDecor)
+                                Decor.Lock()
+                        End Select
+                    Catch ex As Exception
+                        Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
+                    End Try
                 End If
+            End If
             End If
 
         If Not LV.IsVehiclePersist Then
@@ -177,7 +177,7 @@ Public Class Persistence
         Try
             For Each veh As Vehicle In listOfVeh
                 If veh.ExistsOn(modDecor) Then
-                    If showBlips Then veh.CurrentBlip.Remove()
+                    If showBlips Then veh.AttachedBlip.Delete()
                     veh.Delete()
                 End If
             Next
