@@ -17,7 +17,7 @@ Public Class Persistence
         PP = Game.Player.Character
         LV = Game.Player.Character.LastVehicle
 
-        LoadSettings()
+        If File.Exists(saveJson) Then userConfig = New UserSave().Load(saveJson)
 
         Decor.Unlock()
         Decor.Register(modDecor, Decor.eDecorType.Int)
@@ -36,13 +36,14 @@ Public Class Persistence
         NV = World.GetClosestVehicle(PP.Position, 10.0F)
 
         If Not IsLoading() Then
-            If Not IsVehicleLoaded AndAlso Not IsVehicleLoading Then
-                LoadVehicles(Directory.GetFiles(xmlPath, "*.xml"))
+            If Not IsVehicleLoaded Then
+                userConfig.Vehicles.ForEach(Sub(x) x.LoadVehicle(userConfig.ShowBlips))
+                IsVehicleLoaded = True
             End If
 
             PersistenceScriptRun()
 
-            If showBlips Then PatchRedBlips()
+            If userConfig.ShowBlips Then PatchRedBlips()
         End If
 
         If VehicleEx.IsCheating("pause persistence2") Then
@@ -54,19 +55,19 @@ Public Class Persistence
             Try
                 For Each veh As Vehicle In listOfVeh
                     If veh.ExistsOn(modDecor) Then
-                        If showBlips Then veh.AttachedBlip.Delete()
+                        If userConfig.ShowBlips Then veh.AttachedBlip.Delete()
                         veh.Delete()
                     End If
                 Next
                 listOfVeh = New List(Of Vehicle)
-                For Each trl As Vehicle In listOfTrl
-                    If trl.ExistsOn(modDecor) Then
-                        trl.Delete()
-                    End If
-                Next
-                listOfTrl = New List(Of Vehicle)
                 IsVehicleLoaded = False
-                IsVehicleLoading = False
+
+                'For Each trl As Vehicle In listOfTrl
+                '    If trl.ExistsOn(modDecor) Then
+                '        trl.Delete()
+                '    End If
+                'Next
+                'listOfTrl = New List(Of Vehicle)
             Catch ex As Exception
                 Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
             End Try
@@ -78,17 +79,17 @@ Public Class Persistence
         If GetNearestChopper.IsPositionFrozen Then GetNearestChopper.IsPositionFrozen = False
 
         If NV = LV AndAlso Not listOfTrl.Contains(LV) Then
-                If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
-                    DisableControls()
+            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
+                DisableControls()
                 If Not isPause Then UI.Screen.ShowHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName), True)
-                If Game.IsControlJustReleased(saveKey) Then
+                If Game.IsControlJustReleased(userConfig.SaveKey) Then
                     Try
                         Dim veh As New Vehicles(LV, GetPlayerCharacter)
                         If Not listOfVeh.Contains(LV) Then
                             listOfVeh.Add(LV)
                             LV.IsPersistent = True
                             LV.IsAlarmSet = True
-                            If showBlips Then
+                            If userConfig.ShowBlips Then
                                 LV.AddBlip()
                                 LV.AttachedBlip.Sprite = LV.GetSprite
                                 Select Case veh.Owner
@@ -133,11 +134,11 @@ Public Class Persistence
                     End Try
                 End If
             End If
-            End If
+        End If
 
-            If NV = GetNearestCar() Then
-                If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
-                    DisableControls()
+        If NV = GetNearestCar() Then
+            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso NV.ExistsOn(modDecor) AndAlso NV.LockStatus = VehicleLockStatus.LockedForPlayer AndAlso NV.GetInt(modDecor) = GetPlayerCharacter() Then
+                DisableControls()
                 If Not isPause Then UI.Screen.ShowHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName), True)
                 If Game.IsControlJustReleased(saveKey) Then
                     Try
@@ -165,7 +166,7 @@ Public Class Persistence
                     End Try
                 End If
             End If
-            End If
+        End If
 
         If Not LV.IsVehiclePersist Then
             ReleasePersistLastVehicle()
@@ -177,15 +178,15 @@ Public Class Persistence
         Try
             For Each veh As Vehicle In listOfVeh
                 If veh.ExistsOn(modDecor) Then
-                    If showBlips Then veh.AttachedBlip.Delete()
+                    If userConfig.ShowBlips Then veh.AttachedBlip.Delete()
                     veh.Delete()
                 End If
             Next
-            For Each trl As Vehicle In listOfTrl
-                If trl.ExistsOn(modDecor) Then
-                    trl.Delete()
-                End If
-            Next
+            'For Each trl As Vehicle In listOfTrl
+            '    If trl.ExistsOn(modDecor) Then
+            '        trl.Delete()
+            '    End If
+            'Next
         Catch ex As Exception
             Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
         End Try

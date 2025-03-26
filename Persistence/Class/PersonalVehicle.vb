@@ -6,12 +6,17 @@ Imports GTA.Math
 Imports Metadata
 Imports Newtonsoft.Json
 
-Public Class VirtualGarage
+Public Class UserSave
 
-    Public Property Vehicles() As List(Of PersonalVehicle)
+    Public DisplayVehicleName As Boolean = False
+    Public ShowBlips As Boolean = True
+    Public AlarmVol As Integer = 100
+    Public SaveDamage As Boolean = True
+    Public SaveKey As Control = Control.Context
+    Public Vehicles As List(Of PersonalVehicle) = New List(Of PersonalVehicle)
 
-    Public Function Load(filename As String) As VirtualGarage
-        Return JsonConvert.DeserializeObject(Of VirtualGarage)(IO.File.ReadAllText(filename))
+    Public Function Load(filename As String) As UserSave
+        Return JsonConvert.DeserializeObject(Of UserSave)(IO.File.ReadAllText(filename))
     End Function
 
     Public Sub Save(filename As String)
@@ -22,129 +27,219 @@ End Class
 
 Public Class PersonalVehicle
 
-    Public Property MakeName() As String
-    Public Property DisplayName() As String
-    Public Property Hash() As Integer
-    Public Property Position() As Vector3
-    Public Property Rotation() As Vector3
-    Public Property Owner() As Integer
-    Public Property Identification() As Long
+    Public MakeName As String
+    Public DisplayName As String
+    Public Hash As Integer
+    Public Position As Vector3
+    Public Rotation As Vector3
+    Public Owner As Integer
+    Public Identification As Long
 
-    Public Property Aerials() As Integer
-    Public Property Suspension() As Integer
-    Public Property Armor() As Integer
-    Public Property Brakes() As Integer
-    Public Property Engine() As Integer
-    Public Property Transmission() As Integer
-    Public Property FrontBumper() As Integer
-    Public Property RearBumper() As Integer
-    Public Property SideSkirt() As Integer
-    Public Property Trim() As Integer
-    Public Property EngineBlock() As Integer
-    Public Property AirFilter() As Integer
-    Public Property Struts() As Integer
-    Public Property ColumnShifterLevers() As Integer
-    Public Property Dashboard() As Integer
-    Public Property DialDesign() As Integer
-    Public Property Ornaments() As Integer
-    Public Property Seats() As Integer
-    Public Property SteeringWheels() As Integer
-    Public Property TrimDesign() As Integer
-    Public Property TrimColor() As Integer
-    Public Property PlateHolder() As Integer
-    Public Property VanityPlates() As Integer
-    Public Property LicensePlateType() As Integer
-    Public Property LicensePlateStyle() As Integer
-    Public Property LicensePlate() As String
-    Public Property WheelType() As Integer
-    Public Property FrontWheel() As Integer
-    Public Property RearWheel() As Integer
-    Public Property FrontWheelVariation() As Boolean
-    Public Property RearWheelVariation() As Boolean
-    Public Property XenonHeadlights() As Boolean
-    Public Property FrontNeon() As Boolean
-    Public Property BackNeon() As Boolean
-    Public Property LeftNeon() As Boolean
-    Public Property RightNeon() As Boolean
-    Public Property ArchCover() As Integer
-    Public Property Exhaust() As Integer
-    Public Property Fender() As Integer
-    Public Property RightFender() As Integer
-    Public Property DoorSpeakers() As Integer
-    Public Property Frame() As Integer
-    Public Property Grille() As Integer
-    Public Property Hood() As Integer
-    Public Property Horns() As Integer
-    Public Property Hydraulics() As Integer
-    Public Property Livery() As Integer
-    Public Property Plaques() As Integer
-    Public Property Roof() As Integer
-    Public Property Speakers() As Integer
-    Public Property Spoilers() As Integer
-    Public Property Tank() As Integer
-    Public Property Trunk() As Integer
-    Public Property Windows() As Integer
-    Public Property Turbo() As Boolean
-    Public Property Tint() As Integer
-    Public Property PrimaryColor() As Integer
-    Public Property SecondaryColor() As Integer
-    Public Property PearlescentColor() As Integer
-    Public Property RimColor() As Integer
-    Public Property DashboardColor() As Integer
-    Public Property NeonLightsColor() As VsColor
-    Public Property TireSmokeColor() As VsColor
-    Public Property TireSmoke() As Boolean
-    Public Property Livery2() As Integer
-    Public Property XenonLightsColor() As Integer
-    Public Property BulletProofTyres() As Boolean
-    Public Property CustomPrimaryColor() As VsColor
-    Public Property CustomSecondaryColor() As VsColor
-    Public Property IsPrimaryColorCustom() As Boolean
-    Public Property IsSecondaryColorCustom() As Boolean
-    Public Property ColorCombination() As Integer
-    Public Property Extra0() As Boolean
-    Public Property Extra1() As Boolean
-    Public Property Extra2() As Boolean
-    Public Property Extra3() As Boolean
-    Public Property Extra4() As Boolean
-    Public Property Extra5() As Boolean
-    Public Property Extra6() As Boolean
-    Public Property Extra7() As Boolean
-    Public Property Extra8() As Boolean
-    Public Property Extra9() As Boolean
-    Public Property Extra10() As Boolean
-    Public Property Extra11() As Boolean
-    Public Property Extra12() As Boolean
-    Public Property Extra13() As Boolean
-    Public Property Extra14() As Boolean
-    Public Property Extra15() As Boolean
-    Public Property DirtLevel() As Single
-    Public Property BodyHealth() As Single
-    Public Property EngineHealth() As Single
-    Public Property PetrolTankHealth() As Single
-    Public Property FuelLevel() As Single
-    Public Property RoofState() As Integer
-    Public Property SteeringScale() As Single
-    Public Property SteeringAngle() As Single
-    Public Property Nitrous() As Boolean
-    Public Property Livery1() As Integer
-    Public Property SubWoofer() As Boolean
-    Public Property Hydraulics2() As Boolean
+    Public Aerials As Integer
+    Public Suspension As Integer
+    Public Armor As Integer
+    Public Brakes As Integer
+    Public Engine As Integer
+    Public Transmission As Integer
+    Public FrontBumper As Integer
+    Public RearBumper As Integer
+    Public SideSkirt As Integer
+    Public Trim As Integer
+    Public EngineBlock As Integer
+    Public AirFilter As Integer
+    Public Struts As Integer
+    Public ColumnShifterLevers As Integer
+    Public Dashboard As Integer
+    Public DialDesign As Integer
+    Public Ornaments As Integer
+    Public Seats As Integer
+    Public SteeringWheels As Integer
+    Public TrimDesign As Integer
+    Public TrimColor As Integer
+    Public PlateHolder As Integer
+    Public VanityPlates As Integer
+    Public LicensePlateStyle As Integer
+    Public LicensePlate As String
+    Public WheelType As Integer
+    Public FrontWheel As Integer
+    Public RearWheel As Integer
+    Public FrontWheelVariation As Boolean
+    Public RearWheelVariation As Boolean
+    Public XenonHeadlights As Boolean
+    Public FrontNeon As Boolean
+    Public BackNeon As Boolean
+    Public LeftNeon As Boolean
+    Public RightNeon As Boolean
+    Public ArchCover As Integer
+    Public Exhaust As Integer
+    Public Fender As Integer
+    Public RightFender As Integer
+    Public DoorSpeakers As Integer
+    Public Frame As Integer
+    Public Grille As Integer
+    Public Hood As Integer
+    Public Horns As Integer
+    Public Hydraulics As Integer
+    Public Livery As Integer
+    Public Plaques As Integer
+    Public Roof As Integer
+    Public Speakers As Integer
+    Public Spoilers As Integer
+    Public Tank As Integer
+    Public Trunk As Integer
+    Public Windows As Integer
+    Public Turbo As Boolean
+    Public WindowTint As Integer
+    Public PrimaryColor As Integer
+    Public SecondaryColor As Integer
+    Public PearlescentColor As Integer
+    Public RimColor As Integer
+    Public DashboardColor As Integer
+    Public NeonLightsColor As VsColor
+    Public TireSmokeColor As VsColor
+    Public TireSmoke As Boolean
+    Public Livery2 As Integer
+    Public XenonLightsColor As Integer
+    Public BulletProofTyres As Boolean
+    Public CustomPrimaryColor As VsColor
+    Public CustomSecondaryColor As VsColor
+    Public IsPrimaryColorCustom As Boolean
+    Public IsSecondaryColorCustom As Boolean
+    Public ColorCombination As Integer
+    Public Extras As List(Of Extra)
+    Public DirtLevel As Single
+    Public BodyHealth As Single
+    Public EngineHealth As Single
+    Public PetrolTankHealth As Single
+    Public FuelLevel As Single
+    Public RoofState As Integer
+    Public SteeringScale As Single
+    Public SteeringAngle As Single
+    Public Nitrous As Boolean
+    Public Livery1 As Integer
+    Public SubWoofer As Boolean
+    Public Hydraulics2 As Boolean
 
-    Public Function LoadVehicle() As Vehicle
+    Public Function LoadVehicle(Optional addblip As Boolean = True) As Vehicle
         Dim model As New Model(Hash)
         Dim veh = World.CreateVehicle(model, Position, Rotation.ToHeading)
+
         With veh
+            .IsPersistent = True
+            .SetInt(modDecor, GetPlayerCharacter())
+            .SetBool(modDecor2, True)
             .SetInt(modDecor3, Identification)
+
             With veh.Mods
                 .InstallModKit()
                 .Item(VehicleModType.Spoilers).Index = Spoilers
                 .Item(VehicleModType.FrontBumper).Index = FrontBumper
                 .Item(VehicleModType.RearBumper).Index = RearBumper
                 .Item(VehicleModType.SideSkirt).Index = SideSkirt
-                'todo
+                .Item(VehicleModType.Exhaust).Index = Exhaust
+                .Item(VehicleModType.Frame).Index = Frame
+                .Item(VehicleModType.Grille).Index = Grille
+                .Item(VehicleModType.Hood).Index = Hood
+                .Item(VehicleModType.Fender).Index = Fender
+                .Item(VehicleModType.RightFender).Index = RightFender
+                .Item(VehicleModType.Roof).Index = Roof
+                .Item(VehicleModType.Engine).Index = Engine
+                .Item(VehicleModType.Brakes).Index = Brakes
+                .Item(VehicleModType.Transmission).Index = Transmission
+                .Item(VehicleModType.Horns).Index = Horns
+                .Item(VehicleModType.Suspension).Index = Suspension
+                .Item(VehicleModType.Armor).Index = Armor
+                .Item(VehicleModType.FrontWheel).Index = FrontWheel
+                .Item(VehicleModType.FrontWheel).Variation = FrontWheelVariation
+                .Item(VehicleModType.RearWheel).Index = RearWheel
+                .Item(VehicleModType.RearWheel).Variation = RearWheelVariation
+                .Item(VehicleModType.PlateHolder).Index = PlateHolder
+                .Item(VehicleModType.VanityPlates).Index = VanityPlates
+                .Item(VehicleModType.TrimDesign).Index = TrimDesign
+                .Item(VehicleModType.Ornaments).Index = Ornaments
+                .Item(VehicleModType.Dashboard).Index = Dashboard
+                .Item(VehicleModType.DialDesign).Index = DialDesign
+                .Item(VehicleModType.DoorSpeakers).Index = DoorSpeakers
+                .Item(VehicleModType.Seats).Index = Seats
+                .Item(VehicleModType.SteeringWheels).Index = SteeringWheels
+                .Item(VehicleModType.ColumnShifterLevers).Index = ColumnShifterLevers
+                .Item(VehicleModType.Plaques).Index = Plaques
+                .Item(VehicleModType.Speakers).Index = Speakers
+                .Item(VehicleModType.Trunk).Index = Trunk
+                .Item(VehicleModType.Hydraulics).Index = Hydraulics
+                .Item(VehicleModType.EngineBlock).Index = EngineBlock
+                .Item(VehicleModType.AirFilter).Index = AirFilter
+                .Item(VehicleModType.Struts).Index = Struts
+                .Item(VehicleModType.ArchCover).Index = ArchCover
+                .Item(VehicleModType.Aerials).Index = Aerials
+                .Item(VehicleModType.Trim).Index = Trim
+                .Item(VehicleModType.Tank).Index = Tank
+                .Item(VehicleModType.Windows).Index = Windows
+                .Item(VehicleModType.Livery).Index = Livery
+
+                .Item(CType(VehicleToggleModTypeEx.Nitrous, VehicleToggleModType)).IsInstalled = Nitrous
+                .Item(VehicleToggleModType.Turbo).IsInstalled = Turbo
+                .Item(CType(VehicleToggleModTypeEx.Subwoofer, VehicleToggleModType)).IsInstalled = SubWoofer
+                .Item(VehicleToggleModType.TireSmoke).IsInstalled = TireSmoke
+                .Item(CType(VehicleToggleModTypeEx.Hydraulics, VehicleToggleModType)).IsInstalled = Hydraulics2
+                .Item(VehicleToggleModType.XenonHeadlights).IsInstalled = XenonHeadlights
+
+                .SetNeonLightsOn(VehicleNeonLight.Front, FrontNeon)
+                .SetNeonLightsOn(VehicleNeonLight.Back, BackNeon)
+                .SetNeonLightsOn(VehicleNeonLight.Left, LeftNeon)
+                .SetNeonLightsOn(VehicleNeonLight.Right, RightNeon)
+
+                .LicensePlateStyle = LicensePlateStyle
+                .LicensePlate = LicensePlate
+                .TrimColor = TrimColor
+                .WheelType = WheelType
+                .WindowTint = WindowTint
+                .PrimaryColor = PrimaryColor
+                .SecondaryColor = SecondaryColor
+                .PearlescentColor = PearlescentColor
+                .RimColor = RimColor
+                .DashboardColor = DashboardColor
+                .NeonLightsColor = NeonLightsColor.ToColor
+                .TireSmokeColor = TireSmokeColor.ToColor
+                .Livery = Livery1
+                If IsPrimaryColorCustom Then .CustomPrimaryColor = CustomPrimaryColor.ToColor
+                If IsSecondaryColorCustom Then .CustomSecondaryColor = CustomSecondaryColor.ToColor
+                .ColorCombination = ColorCombination
             End With
+
+            .CanTiresBurst = BulletProofTyres
+            .XenonLightsColor(XenonLightsColor)
+            Extras.ForEach(Sub(x) .ToggleExtra(x.Index, x.ExtraOn))
+            .DirtLevel = DirtLevel
+            .BodyHealth = BodyHealth
+            .EngineHealth = EngineHealth
+            .PetrolTankHealth = PetrolTankHealth
+            .FuelLevel = FuelLevel
+            .RoofState = RoofState
+            .SteeringScale = SteeringScale
+            .SteeringAngle = SteeringAngle
+            .Livery2(Livery2)
+
+            If addblip Then
+                .AddBlip()
+                .AttachedBlip.Sprite = .GetSprite
+                Select Case Owner
+                    Case 0
+                        .AttachedBlip.Color = BlipColor.Michael
+                    Case 1
+                        .AttachedBlip.Color = BlipColor.Franklin
+                    Case 2
+                        .AttachedBlip.Color = BlipColor.Trevor
+                    Case Else
+                        .AttachedBlip.Color = BlipColor.NetPlayer1
+                End Select
+                .AttachedBlip.IsShortRange = True
+                .AttachedBlip.Name = $"{MakeName} {DisplayName}"
+            End If
+
         End With
+
+        Return veh
     End Function
 
     Public Sub New(veh As Vehicle, _owner As Integer)
@@ -203,11 +298,11 @@ Public Class PersonalVehicle
                 Windows = .Item(VehicleModType.Windows).Index
                 Livery = .Item(VehicleModType.Livery).Index
 
-                Nitrous = .Item(VehicleToggleModType.Nitrous).IsInstalled
+                Nitrous = .Item(CType(VehicleToggleModTypeEx.Nitrous, VehicleToggleModType)).IsInstalled
                 Turbo = .Item(VehicleToggleModType.Turbo).IsInstalled
-                SubWoofer = .Item(VehicleToggleModType.SubWoofer).IsInstalled
+                SubWoofer = .Item(CType(VehicleToggleModTypeEx.Subwoofer, VehicleToggleModType)).IsInstalled
                 TireSmoke = .Item(VehicleToggleModType.TireSmoke).IsInstalled
-                Hydraulics2 = .Item(VehicleToggleModType.Hydraulics).IsInstalled
+                Hydraulics2 = .Item(CType(VehicleToggleModTypeEx.Hydraulics, VehicleToggleModType)).IsInstalled
                 XenonHeadlights = .Item(VehicleToggleModType.XenonHeadlights).IsInstalled
 
                 FrontNeon = .HasNeonLight(VehicleNeonLight.Front)
@@ -215,12 +310,11 @@ Public Class PersonalVehicle
                 LeftNeon = .HasNeonLight(VehicleNeonLight.Left)
                 RightNeon = .HasNeonLight(VehicleNeonLight.Right)
 
-                LicensePlateType = .LicensePlateType
                 LicensePlateStyle = .LicensePlateStyle
                 LicensePlate = .LicensePlate
                 TrimColor = .TrimColor
                 WheelType = .WheelType
-                Tint = .WindowTint
+                WindowTint = .WindowTint
                 PrimaryColor = .PrimaryColor
                 SecondaryColor = .SecondaryColor
                 PearlescentColor = .PearlescentColor
@@ -238,22 +332,13 @@ Public Class PersonalVehicle
 
             BulletProofTyres = veh.CanTiresBurst
             XenonLightsColor = veh.XenonLightsColor()
-            Extra0 = veh.IsExtraOn(0)
-            Extra1 = veh.IsExtraOn(1)
-            Extra2 = veh.IsExtraOn(2)
-            Extra3 = veh.IsExtraOn(3)
-            Extra4 = veh.IsExtraOn(4)
-            Extra5 = veh.IsExtraOn(5)
-            Extra6 = veh.IsExtraOn(6)
-            Extra7 = veh.IsExtraOn(7)
-            Extra8 = veh.IsExtraOn(8)
-            Extra9 = veh.IsExtraOn(9)
-            Extra10 = veh.IsExtraOn(10)
-            Extra11 = veh.IsExtraOn(11)
-            Extra12 = veh.IsExtraOn(12)
-            Extra13 = veh.IsExtraOn(13)
-            Extra14 = veh.IsExtraOn(14)
-            Extra15 = veh.IsExtraOn(15)
+
+            Dim xtras As New List(Of Extra)
+            For i As Integer = 0 To 15
+                If veh.ExtraExists(i) Then xtras.Add(New Extra(i, veh.IsExtraOn(i)))
+            Next
+            Extras = xtras
+
             DirtLevel = veh.DirtLevel
             BodyHealth = veh.BodyHealth
             EngineHealth = veh.EngineHealth
@@ -272,9 +357,9 @@ End Class
 
 Public Class VsColor
 
-    Public Property Red() As Integer
-    Public Property Green() As Integer
-    Public Property Blue() As Integer
+    Public Red As Integer
+    Public Green As Integer
+    Public Blue As Integer
 
     Public Sub New(r As Integer, g As Integer, b As Integer)
         Red = r
@@ -287,3 +372,24 @@ Public Class VsColor
     End Function
 
 End Class
+
+Public Class Extra
+
+    Public Index As Integer
+    Public ExtraOn As Boolean
+
+    Public Sub New(idx As Integer, ison As Boolean)
+        Index = idx
+        ExtraOn = ison
+    End Sub
+
+End Class
+
+Public Enum VehicleToggleModTypeEx
+    Nitrous = 17
+    Turbo
+    Subwoofer
+    TireSmoke
+    Hydraulics
+    XenonHeadlights
+End Enum

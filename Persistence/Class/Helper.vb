@@ -10,13 +10,17 @@ Imports Metadata.VehicleEx
 
 Module Helper
 
+    'New Config
+    Public saveJson As String = ".\scripts\Persistence\save.json"
+    Public userConfig As UserSave = New UserSave()
+
     'Config
-    Public config As ScriptSettings = ScriptSettings.Load("scripts\Persistence\Persistence.ini")
-    Public dispVehName As Boolean = False
-    Public saveKey As GTA.Control = GTA.Control.Context
-    Public showBlips As Boolean = True
-    Public alarmVolume As Integer = 100
-    Public saveDamage As Boolean = True
+    'Public config As ScriptSettings = ScriptSettings.Load("scripts\Persistence\Persistence.ini")
+    'Public dispVehName As Boolean = False
+    'Public saveKey As GTA.Control = GTA.Control.Context
+    'Public showBlips As Boolean = True
+    'Public alarmVolume As Integer = 100
+    'Public saveDamage As Boolean = True
 
     'Path
     Public xmlPath As String = ".\scripts\Persistence\Vehicles\"
@@ -24,9 +28,9 @@ Module Helper
 
     'Memory
     Public listOfVeh As New List(Of Vehicle)
-    Public listOfTrl As New List(Of Vehicle)
+    'Public listOfTrl As New List(Of Vehicle)
     Public IsVehicleLoaded As Boolean = False
-    Public IsVehicleLoading As Boolean = False
+    'Public IsVehicleLoading As Boolean = False
 
     'Decor
     Public modDecor As String = "inm_persistence"
@@ -140,7 +144,7 @@ Module Helper
         Indicator.veh = vehicle
         Script.Wait(500)
         Using Stream As New WaveStream(File.OpenRead($"{soundPath}lock.wav"))
-            Stream.Volume = alarmVolume
+            Stream.Volume = userConfig.AlarmVol
             Using player As New SoundPlayer(Stream)
                 player.Play()
             End Using
@@ -162,7 +166,7 @@ Module Helper
         Indicator.veh = vehicle
         Script.Wait(500)
         Using Stream As New WaveStream(File.OpenRead($"{soundPath}unlock.wav"))
-            Stream.Volume = alarmVolume
+            Stream.Volume = userConfig.AlarmVol
             Using player As New SoundPlayer(Stream)
                 player.Play()
             End Using
@@ -204,7 +208,7 @@ Module Helper
 
     Public Sub SoundPlayer(waveFile As String)
         Using stream As New WaveStream(IO.File.OpenRead(waveFile))
-            stream.Volume = alarmVolume
+            stream.Volume = userConfig.AlarmVol
             Using player As New SoundPlayer(stream)
                 player.Play()
             End Using
@@ -215,26 +219,6 @@ Module Helper
     Public Function GetInteriorID(pos As Vector3) As Integer
         Return Native.Function.Call(Of Integer)(Native.Hash.GET_INTERIOR_AT_COORDS, pos.X, pos.Y, pos.Z)
     End Function
-
-    Public Sub LoadSettings()
-        CreateConfig()
-        dispVehName = config.GetValue(Of Boolean)("GENERAL", "DisplayVehicleName", False)
-        showBlips = config.GetValue(Of Boolean)("GENERAL", "ShowBlips", True)
-        alarmVolume = config.GetValue(Of Integer)("GENERAL", "AlarmVol", 100)
-        saveDamage = config.GetValue(Of Boolean)("GENERAL", "SaveDamage", True)
-        saveKey = config.GetValue(Of GTA.Control)("CONTROL", "SaveKey", GTA.Control.Context)
-    End Sub
-
-    Private Sub CreateConfig()
-        If Not File.Exists("scripts\Persistence\Persistence.ini") Then
-            config.SetValue(Of Boolean)("GENERAL", "DisplayVehicleName", False)
-            config.SetValue(Of Boolean)("GENERAL", "ShowBlips", True)
-            config.SetValue(Of Integer)("GENERAL", "AlarmVol", 100)
-            config.SetValue(Of Boolean)("GENERAL", "SaveDamage", True)
-            config.SetValue(Of GTA.Control)("CONTROL", "SaveKey", GTA.Control.Context)
-            config.Save()
-        End If
-    End Sub
 
     <Extension>
     Public Function GetButtonIcon(control As GTA.Control) As String
@@ -596,398 +580,398 @@ Module Helper
         Return full
     End Function
 
-    <Extension>
-    Public Function FullName(vehicle As Vehicles) As String
-        Dim make As String = vehicle.Make
-        Dim name As String = vehicle.Name
-        Dim full As String = $"{make} {name}"
-        If make = "NULL" Then full = name
-        Return full
-    End Function
+    '<Extension>
+    'Public Function FullName(vehicle As Vehicles) As String
+    '    Dim make As String = vehicle.Make
+    '    Dim name As String = vehicle.Name
+    '    Dim full As String = $"{make} {name}"
+    '    If make = "NULL" Then full = name
+    '    Return full
+    'End Function
 
-    Public Sub LoadVehicles(files As String())
-        Dim procFile As String = Nothing
-        Try
-            For Each file As String In files
-                IsVehicleLoading = True
-                procFile = file
-                Dim pv As PVehicle = New PVehicle(file).Instance
-                Dim v As Vehicles = pv.PlayerVehicles
-                Dim t As Vehicles
-                Dim veh As Vehicle = World.CreateVehicle(v.Hash, v.Position)
-                Dim trl As Vehicle = Nothing
-                With veh
-                    .Rotation = v.Rotation
-                    .WheelType = v.WheelType
-                    .InstallModKit()
-                    .SetMod(VehicleMod.Aerials, v.Aerials, True)
-                    .SetMod(VehicleMod.Suspension, v.Suspension, True)
-                    .SetMod(VehicleMod.Brakes, v.Brakes, True)
-                    .SetMod(VehicleMod.Engine, v.Engine, True)
-                    .SetMod(VehicleMod.Transmission, v.Transmission, True)
-                    .SetMod(VehicleMod.FrontBumper, v.FrontBumper, True)
-                    .SetMod(VehicleMod.RearBumper, v.RearBumper, True)
-                    .SetMod(VehicleMod.SideSkirt, v.SideSkirt, True)
-                    .SetMod(VehicleMod.Trim, v.Trim, True)
-                    .SetMod(VehicleMod.EngineBlock, v.EngineBlock, True)
-                    .SetMod(VehicleMod.AirFilter, v.AirFilter, True)
-                    .SetMod(VehicleMod.Struts, v.Struts, True)
-                    .SetMod(VehicleMod.ColumnShifterLevers, v.ColumnShifterLevers, True)
-                    .SetMod(VehicleMod.Dashboard, v.Dashboard, True)
-                    .SetMod(VehicleMod.DialDesign, v.DialDesign, True)
-                    .SetMod(VehicleMod.Ornaments, v.Ornaments, True)
-                    .SetMod(VehicleMod.Seats, v.Seats, True)
-                    .SetMod(VehicleMod.SteeringWheels, v.SteeringWheel, True)
-                    .SetMod(VehicleMod.TrimDesign, v.TrimDesign, True)
-                    .SetMod(VehicleMod.PlateHolder, v.PlateHolder, True)
-                    .SetMod(VehicleMod.VanityPlates, v.VanityPlates, True)
-                    .SetMod(VehicleMod.FrontWheels, v.Frontwheels, v.WheelsVariation)
-                    .SetMod(VehicleMod.BackWheels, v.BackWheels, v.WheelsVariation)
-                    .SetMod(VehicleMod.ArchCover, v.ArchCover, True)
-                    .SetMod(VehicleMod.Exhaust, v.Exhaust, True)
-                    .SetMod(VehicleMod.Fender, v.Fender, True)
-                    .SetMod(VehicleMod.RightFender, v.RightFender, True)
-                    .SetMod(VehicleMod.DoorSpeakers, v.DoorSpeakers, True)
-                    .SetMod(VehicleMod.Frame, v.Frame, True)
-                    .SetMod(VehicleMod.Grille, v.Grille, True)
-                    .SetMod(VehicleMod.Hood, v.Hood, True)
-                    .SetMod(VehicleMod.Horns, v.Horn, True)
-                    .SetMod(VehicleMod.Hydraulics, v.Hydraulics, True)
-                    .SetMod(VehicleMod.Livery, v.Livery, True)
-                    .SetMod(VehicleMod.Plaques, v.Plaques, True)
-                    .SetMod(VehicleMod.Roof, v.Roof, True)
-                    .SetMod(VehicleMod.Speakers, v.Speakers, True)
-                    .SetMod(VehicleMod.Spoilers, v.Spoiler, True)
-                    .SetMod(VehicleMod.Tank, v.Tank, True)
-                    .SetMod(VehicleMod.Trunk, v.Trunk, True)
-                    .SetMod(VehicleMod.Windows, v.Windows, True)
-                    .ToggleMod(VehicleToggleMod.XenonHeadlights, v.Headlights)
-                    .ToggleMod(VehicleToggleMod.Turbo, v.Turbo)
-                    .ToggleMod(VehicleToggleMod.TireSmoke, v.Tiresmoke)
-                    .TrimColor = v.TrimColor
-                    .NumberPlateType = v.NumberPlate
-                    .NumberPlate = v.PlateNumber
-                    .SetNeonLightsOn(VehicleNeonLight.Front, v.FrontNeon)
-                    .SetNeonLightsOn(VehicleNeonLight.Back, v.BackNeon)
-                    .SetNeonLightsOn(VehicleNeonLight.Left, v.LeftNeon)
-                    .SetNeonLightsOn(VehicleNeonLight.Right, v.RightNeon)
-                    .WindowTint = v.Tint
-                    .PrimaryColor = v.PrimaryColor
-                    .SecondaryColor = v.SecondaryColor
-                    .PearlescentColor = v.PearlescentColor
-                    .RimColor = v.RimColor
-                    .DashboardColor = v.LightsColor
-                    .NeonLightsColor = v.NeonLightsColor.ToColor
-                    .TireSmokeColor = v.TireSmokeColor.ToColor
-                    .Livery2(v.Livery2)
-                    .Livery = v.Livery1
-                    .XenonHeadlightsColor(v.HeadlightsColor)
-                    .CanTiresBurst = v.BulletProofTires
-                    If v.HasCustomPrimaryColor Then .CustomPrimaryColor = v.CustomPrimaryColor.ToColor
-                    If v.HasCustomSecondaryColor Then .CustomSecondaryColor = v.CustomSecondaryColor.ToColor
-                    .ToggleExtra(0, v.Extra0)
-                    .ToggleExtra(1, v.Extra1)
-                    .ToggleExtra(2, v.Extra2)
-                    .ToggleExtra(3, v.Extra3)
-                    .ToggleExtra(4, v.Extra4)
-                    .ToggleExtra(5, v.Extra5)
-                    .ToggleExtra(6, v.Extra6)
-                    .ToggleExtra(7, v.Extra7)
-                    .ToggleExtra(8, v.Extra8)
-                    .ToggleExtra(9, v.Extra9)
-                    .ToggleExtra(10, v.Extra10)
-                    .ToggleExtra(11, v.Extra11)
-                    .ToggleExtra(12, v.Extra12)
-                    .ToggleExtra(13, v.Extra13)
-                    .ToggleExtra(14, v.Extra14)
-                    .ToggleExtra(15, v.Extra15)
-                    .DirtLevel = v.DirtLevel
-                    If saveDamage Then
-                        .BodyHealth = v.BodyHealth
-                        .EngineHealth = v.EngineHealth
-                        .PetrolTankHealth = v.PetrolTankHealth
-                    End If
-                    .FuelLevel = v.FuelLevel
-                    .RoofState = v.RoofState
-                    .SteeringScale = v.SteeringScale
-                    If IsNitroModInstalled() Then .SetInt(nitroModDecor, v.HasNitro)
-                    .IsPersistent = True
-                    If showBlips Then
-                        .AddBlip()
-                        .CurrentBlip.Sprite = veh.GetSprite
-                        Select Case v.Owner
-                            Case 0
-                                .CurrentBlip.Color = BlipColor.Michael
-                            Case 1
-                                .CurrentBlip.Color = BlipColor.Franklin
-                            Case 2
-                                .CurrentBlip.Color = BlipColor.Trevor
-                            Case 3
-                                .CurrentBlip.Color = BlipColor.NetPlayer1
-                        End Select
-                        .CurrentBlip.IsShortRange = True
-                        .CurrentBlip.Name = If(dispVehName, v.FullName, Game.GetGXTEntry("PVEHICLE"))
-                    End If
-                    .SetInt(modDecor, v.Owner)
-                    .SetBool(modDecor2, True)
-                    .LockStatus = VehicleLockStatus.LockedForPlayer
-                    .HasAlarm = True
-                    If .Model.IsHelicopter Then .FreezePosition = True
-                End With
-                listOfVeh.Add(veh)
-                If v.HasTrailer Then
-                    t = pv.TrailerVehicles
-                    trl = World.CreateVehicle(t.Hash, t.Position)
-                    With trl
-                        .Rotation = t.Rotation
-                        .WheelType = t.WheelType
-                        .InstallModKit()
-                        .SetMod(VehicleMod.Aerials, t.Aerials, True)
-                        .SetMod(VehicleMod.Suspension, t.Suspension, True)
-                        .SetMod(VehicleMod.Brakes, t.Brakes, True)
-                        .SetMod(VehicleMod.Engine, t.Engine, True)
-                        .SetMod(VehicleMod.Transmission, t.Transmission, True)
-                        .SetMod(VehicleMod.FrontBumper, t.FrontBumper, True)
-                        .SetMod(VehicleMod.RearBumper, t.RearBumper, True)
-                        .SetMod(VehicleMod.SideSkirt, t.SideSkirt, True)
-                        .SetMod(VehicleMod.Trim, t.Trim, True)
-                        .SetMod(VehicleMod.EngineBlock, t.EngineBlock, True)
-                        .SetMod(VehicleMod.AirFilter, t.AirFilter, True)
-                        .SetMod(VehicleMod.Struts, t.Struts, True)
-                        .SetMod(VehicleMod.ColumnShifterLevers, t.ColumnShifterLevers, True)
-                        .SetMod(VehicleMod.Dashboard, t.Dashboard, True)
-                        .SetMod(VehicleMod.DialDesign, t.DialDesign, True)
-                        .SetMod(VehicleMod.Ornaments, t.Ornaments, True)
-                        .SetMod(VehicleMod.Seats, t.Seats, True)
-                        .SetMod(VehicleMod.SteeringWheels, t.SteeringWheel, True)
-                        .SetMod(VehicleMod.TrimDesign, t.TrimDesign, True)
-                        .SetMod(VehicleMod.PlateHolder, t.PlateHolder, True)
-                        .SetMod(VehicleMod.VanityPlates, t.VanityPlates, True)
-                        .SetMod(VehicleMod.FrontWheels, t.Frontwheels, t.WheelsVariation)
-                        .SetMod(VehicleMod.BackWheels, t.BackWheels, t.WheelsVariation)
-                        .SetMod(VehicleMod.ArchCover, t.ArchCover, True)
-                        .SetMod(VehicleMod.Exhaust, t.Exhaust, True)
-                        .SetMod(VehicleMod.Fender, t.Fender, True)
-                        .SetMod(VehicleMod.RightFender, t.RightFender, True)
-                        .SetMod(VehicleMod.DoorSpeakers, t.DoorSpeakers, True)
-                        .SetMod(VehicleMod.Frame, t.Frame, True)
-                        .SetMod(VehicleMod.Grille, t.Grille, True)
-                        .SetMod(VehicleMod.Hood, t.Hood, True)
-                        .SetMod(VehicleMod.Horns, t.Horn, True)
-                        .SetMod(VehicleMod.Hydraulics, t.Hydraulics, True)
-                        .SetMod(VehicleMod.Livery, t.Livery, True)
-                        .SetMod(VehicleMod.Plaques, t.Plaques, True)
-                        .SetMod(VehicleMod.Roof, t.Roof, True)
-                        .SetMod(VehicleMod.Speakers, t.Speakers, True)
-                        .SetMod(VehicleMod.Spoilers, t.Spoiler, True)
-                        .SetMod(VehicleMod.Tank, t.Tank, True)
-                        .SetMod(VehicleMod.Trunk, t.Trunk, True)
-                        .SetMod(VehicleMod.Windows, t.Windows, True)
-                        .ToggleMod(VehicleToggleMod.XenonHeadlights, t.Headlights)
-                        .ToggleMod(VehicleToggleMod.Turbo, t.Turbo)
-                        .ToggleMod(VehicleToggleMod.TireSmoke, t.Tiresmoke)
-                        .TrimColor = t.TrimColor
-                        .NumberPlateType = t.NumberPlate
-                        .NumberPlate = t.PlateNumber
-                        .SetNeonLightsOn(VehicleNeonLight.Front, t.FrontNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Back, t.BackNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Left, t.LeftNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Right, t.RightNeon)
-                        .WindowTint = t.Tint
-                        .PrimaryColor = t.PrimaryColor
-                        .SecondaryColor = t.SecondaryColor
-                        .PearlescentColor = t.PearlescentColor
-                        .RimColor = t.RimColor
-                        .DashboardColor = t.LightsColor
-                        .NeonLightsColor = t.NeonLightsColor.ToColor
-                        .TireSmokeColor = t.TireSmokeColor.ToColor
-                        .Livery2(t.Livery2)
-                        .XenonHeadlightsColor(t.HeadlightsColor)
-                        .CanTiresBurst = t.BulletProofTires
-                        If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
-                        If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
-                        .ToggleExtra(0, t.Extra0)
-                        .ToggleExtra(1, t.Extra1)
-                        .ToggleExtra(2, t.Extra2)
-                        .ToggleExtra(3, t.Extra3)
-                        .ToggleExtra(4, t.Extra4)
-                        .ToggleExtra(5, t.Extra5)
-                        .ToggleExtra(6, t.Extra6)
-                        .ToggleExtra(7, t.Extra7)
-                        .ToggleExtra(8, t.Extra8)
-                        .ToggleExtra(9, t.Extra9)
-                        .ToggleExtra(10, t.Extra10)
-                        .ToggleExtra(11, t.Extra11)
-                        .ToggleExtra(12, t.Extra12)
-                        .ToggleExtra(13, t.Extra13)
-                        .ToggleExtra(14, t.Extra14)
-                        .ToggleExtra(15, t.Extra15)
-                        .DirtLevel = t.DirtLevel
-                        If saveDamage Then
-                            .BodyHealth = t.BodyHealth
-                            .EngineHealth = t.EngineHealth
-                            .PetrolTankHealth = t.PetrolTankHealth
-                        End If
-                        .FuelLevel = t.FuelLevel
-                        .RoofState = t.RoofState
-                        .SteeringScale = t.SteeringScale
-                        If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
-                        .IsPersistent = True
-                        .SetInt(modDecor, t.Owner)
-                        .SetBool(modDecor2, True)
-                    End With
-                    listOfTrl.Add(trl)
-                    veh.AttachToTrailer(trl)
-                    Script.Wait(500)
-                End If
-                If v.HasTowing Then
-                    t = pv.TrailerVehicles
-                    trl = World.CreateVehicle(t.Hash, t.Position)
-                    With trl
-                        .Rotation = t.Rotation
-                        .WheelType = t.WheelType
-                        .InstallModKit()
-                        .SetMod(VehicleMod.Aerials, t.Aerials, True)
-                        .SetMod(VehicleMod.Suspension, t.Suspension, True)
-                        .SetMod(VehicleMod.Brakes, t.Brakes, True)
-                        .SetMod(VehicleMod.Engine, t.Engine, True)
-                        .SetMod(VehicleMod.Transmission, t.Transmission, True)
-                        .SetMod(VehicleMod.FrontBumper, t.FrontBumper, True)
-                        .SetMod(VehicleMod.RearBumper, t.RearBumper, True)
-                        .SetMod(VehicleMod.SideSkirt, t.SideSkirt, True)
-                        .SetMod(VehicleMod.Trim, t.Trim, True)
-                        .SetMod(VehicleMod.EngineBlock, t.EngineBlock, True)
-                        .SetMod(VehicleMod.AirFilter, t.AirFilter, True)
-                        .SetMod(VehicleMod.Struts, t.Struts, True)
-                        .SetMod(VehicleMod.ColumnShifterLevers, t.ColumnShifterLevers, True)
-                        .SetMod(VehicleMod.Dashboard, t.Dashboard, True)
-                        .SetMod(VehicleMod.DialDesign, t.DialDesign, True)
-                        .SetMod(VehicleMod.Ornaments, t.Ornaments, True)
-                        .SetMod(VehicleMod.Seats, t.Seats, True)
-                        .SetMod(VehicleMod.SteeringWheels, t.SteeringWheel, True)
-                        .SetMod(VehicleMod.TrimDesign, t.TrimDesign, True)
-                        .SetMod(VehicleMod.PlateHolder, t.PlateHolder, True)
-                        .SetMod(VehicleMod.VanityPlates, t.VanityPlates, True)
-                        .SetMod(VehicleMod.FrontWheels, t.Frontwheels, t.WheelsVariation)
-                        .SetMod(VehicleMod.BackWheels, t.BackWheels, t.WheelsVariation)
-                        .SetMod(VehicleMod.ArchCover, t.ArchCover, True)
-                        .SetMod(VehicleMod.Exhaust, t.Exhaust, True)
-                        .SetMod(VehicleMod.Fender, t.Fender, True)
-                        .SetMod(VehicleMod.RightFender, t.RightFender, True)
-                        .SetMod(VehicleMod.DoorSpeakers, t.DoorSpeakers, True)
-                        .SetMod(VehicleMod.Frame, t.Frame, True)
-                        .SetMod(VehicleMod.Grille, t.Grille, True)
-                        .SetMod(VehicleMod.Hood, t.Hood, True)
-                        .SetMod(VehicleMod.Horns, t.Horn, True)
-                        .SetMod(VehicleMod.Hydraulics, t.Hydraulics, True)
-                        .SetMod(VehicleMod.Livery, t.Livery, True)
-                        .SetMod(VehicleMod.Plaques, t.Plaques, True)
-                        .SetMod(VehicleMod.Roof, t.Roof, True)
-                        .SetMod(VehicleMod.Speakers, t.Speakers, True)
-                        .SetMod(VehicleMod.Spoilers, t.Spoiler, True)
-                        .SetMod(VehicleMod.Tank, t.Tank, True)
-                        .SetMod(VehicleMod.Trunk, t.Trunk, True)
-                        .SetMod(VehicleMod.Windows, t.Windows, True)
-                        .ToggleMod(VehicleToggleMod.XenonHeadlights, t.Headlights)
-                        .ToggleMod(VehicleToggleMod.Turbo, t.Turbo)
-                        .ToggleMod(VehicleToggleMod.TireSmoke, t.Tiresmoke)
-                        .TrimColor = t.TrimColor
-                        .NumberPlateType = t.NumberPlate
-                        .NumberPlate = t.PlateNumber
-                        .SetNeonLightsOn(VehicleNeonLight.Front, t.FrontNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Back, t.BackNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Left, t.LeftNeon)
-                        .SetNeonLightsOn(VehicleNeonLight.Right, t.RightNeon)
-                        .WindowTint = t.Tint
-                        .PrimaryColor = t.PrimaryColor
-                        .SecondaryColor = t.SecondaryColor
-                        .PearlescentColor = t.PearlescentColor
-                        .RimColor = t.RimColor
-                        .DashboardColor = t.LightsColor
-                        .NeonLightsColor = t.NeonLightsColor.ToColor
-                        .TireSmokeColor = t.TireSmokeColor.ToColor
-                        .Livery2(t.Livery2)
-                        .XenonHeadlightsColor(t.HeadlightsColor)
-                        .CanTiresBurst = t.BulletProofTires
-                        If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
-                        If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
-                        .ToggleExtra(0, t.Extra0)
-                        .ToggleExtra(1, t.Extra1)
-                        .ToggleExtra(2, t.Extra2)
-                        .ToggleExtra(3, t.Extra3)
-                        .ToggleExtra(4, t.Extra4)
-                        .ToggleExtra(5, t.Extra5)
-                        .ToggleExtra(6, t.Extra6)
-                        .ToggleExtra(7, t.Extra7)
-                        .ToggleExtra(8, t.Extra8)
-                        .ToggleExtra(9, t.Extra9)
-                        .ToggleExtra(10, t.Extra10)
-                        .ToggleExtra(11, t.Extra11)
-                        .ToggleExtra(12, t.Extra12)
-                        .ToggleExtra(13, t.Extra13)
-                        .ToggleExtra(14, t.Extra14)
-                        .ToggleExtra(15, t.Extra15)
-                        .DirtLevel = t.DirtLevel
-                        If saveDamage Then
-                            .BodyHealth = t.BodyHealth
-                            .EngineHealth = t.EngineHealth
-                            .PetrolTankHealth = t.PetrolTankHealth
-                        End If
-                        .FuelLevel = t.FuelLevel
-                        .RoofState = t.RoofState
-                        .SteeringScale = t.SteeringScale
-                        If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
-                        .IsPersistent = True
-                        .SetInt(modDecor, t.Owner)
-                        .SetBool(modDecor2, True)
-                    End With
-                    listOfTrl.Add(trl)
-                    veh.TowVehicle(trl, False)
-                    Script.Wait(500)
-                End If
-            Next
-        Catch ex As Exception
-            Logger.Log($"{ex.Message} {procFile}{ex.StackTrace}")
-        Finally
-            If listOfVeh.Count = files.Count Then
-                IsVehicleLoaded = True
-                IsVehicleLoading = False
-                Try
-                    UI.Notify(String.Format(GetLangEntry("loaded"), files.Count))
-                Catch
-                End Try
-            Else
-                Try
-                    For Each veh As Vehicle In listOfVeh
-                        If veh.ExistsOn(modDecor) Then
-                            If showBlips Then veh.CurrentBlip.Remove()
-                            veh.Delete()
-                        End If
-                    Next
-                    listOfVeh = New List(Of Vehicle)
-                    For Each trl As Vehicle In listOfTrl
-                        If trl.ExistsOn(modDecor) Then
-                            trl.Delete()
-                        End If
-                    Next
-                    listOfTrl = New List(Of Vehicle)
-                    IsVehicleLoaded = False
-                    IsVehicleLoading = False
-                Catch ex As Exception
-                    Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
-                End Try
-            End If
-        End Try
-    End Sub
+    'Public Sub LoadVehicles(files As String())
+    '    Dim procFile As String = Nothing
+    '    Try
+    '        For Each file As String In files
+    '            IsVehicleLoading = True
+    '            procFile = file
+    '            Dim pv As PVehicle = New PVehicle(file).Instance
+    '            Dim v As Vehicles = pv.PlayerVehicles
+    '            Dim t As Vehicles
+    '            Dim veh As Vehicle = World.CreateVehicle(v.Hash, v.Position)
+    '            Dim trl As Vehicle = Nothing
+    '            With veh
+    '                .Rotation = v.Rotation
+    '                .WheelType = v.WheelType
+    '                .InstallModKit()
+    '                .SetMod(VehicleMod.Aerials, v.Aerials, True)
+    '                .SetMod(VehicleMod.Suspension, v.Suspension, True)
+    '                .SetMod(VehicleMod.Brakes, v.Brakes, True)
+    '                .SetMod(VehicleMod.Engine, v.Engine, True)
+    '                .SetMod(VehicleMod.Transmission, v.Transmission, True)
+    '                .SetMod(VehicleMod.FrontBumper, v.FrontBumper, True)
+    '                .SetMod(VehicleMod.RearBumper, v.RearBumper, True)
+    '                .SetMod(VehicleMod.SideSkirt, v.SideSkirt, True)
+    '                .SetMod(VehicleMod.Trim, v.Trim, True)
+    '                .SetMod(VehicleMod.EngineBlock, v.EngineBlock, True)
+    '                .SetMod(VehicleMod.AirFilter, v.AirFilter, True)
+    '                .SetMod(VehicleMod.Struts, v.Struts, True)
+    '                .SetMod(VehicleMod.ColumnShifterLevers, v.ColumnShifterLevers, True)
+    '                .SetMod(VehicleMod.Dashboard, v.Dashboard, True)
+    '                .SetMod(VehicleMod.DialDesign, v.DialDesign, True)
+    '                .SetMod(VehicleMod.Ornaments, v.Ornaments, True)
+    '                .SetMod(VehicleMod.Seats, v.Seats, True)
+    '                .SetMod(VehicleMod.SteeringWheels, v.SteeringWheel, True)
+    '                .SetMod(VehicleMod.TrimDesign, v.TrimDesign, True)
+    '                .SetMod(VehicleMod.PlateHolder, v.PlateHolder, True)
+    '                .SetMod(VehicleMod.VanityPlates, v.VanityPlates, True)
+    '                .SetMod(VehicleMod.FrontWheels, v.Frontwheels, v.WheelsVariation)
+    '                .SetMod(VehicleMod.BackWheels, v.BackWheels, v.WheelsVariation)
+    '                .SetMod(VehicleMod.ArchCover, v.ArchCover, True)
+    '                .SetMod(VehicleMod.Exhaust, v.Exhaust, True)
+    '                .SetMod(VehicleMod.Fender, v.Fender, True)
+    '                .SetMod(VehicleMod.RightFender, v.RightFender, True)
+    '                .SetMod(VehicleMod.DoorSpeakers, v.DoorSpeakers, True)
+    '                .SetMod(VehicleMod.Frame, v.Frame, True)
+    '                .SetMod(VehicleMod.Grille, v.Grille, True)
+    '                .SetMod(VehicleMod.Hood, v.Hood, True)
+    '                .SetMod(VehicleMod.Horns, v.Horn, True)
+    '                .SetMod(VehicleMod.Hydraulics, v.Hydraulics, True)
+    '                .SetMod(VehicleMod.Livery, v.Livery, True)
+    '                .SetMod(VehicleMod.Plaques, v.Plaques, True)
+    '                .SetMod(VehicleMod.Roof, v.Roof, True)
+    '                .SetMod(VehicleMod.Speakers, v.Speakers, True)
+    '                .SetMod(VehicleMod.Spoilers, v.Spoiler, True)
+    '                .SetMod(VehicleMod.Tank, v.Tank, True)
+    '                .SetMod(VehicleMod.Trunk, v.Trunk, True)
+    '                .SetMod(VehicleMod.Windows, v.Windows, True)
+    '                .ToggleMod(VehicleToggleMod.XenonHeadlights, v.Headlights)
+    '                .ToggleMod(VehicleToggleMod.Turbo, v.Turbo)
+    '                .ToggleMod(VehicleToggleMod.TireSmoke, v.Tiresmoke)
+    '                .TrimColor = v.TrimColor
+    '                .NumberPlateType = v.NumberPlate
+    '                .NumberPlate = v.PlateNumber
+    '                .SetNeonLightsOn(VehicleNeonLight.Front, v.FrontNeon)
+    '                .SetNeonLightsOn(VehicleNeonLight.Back, v.BackNeon)
+    '                .SetNeonLightsOn(VehicleNeonLight.Left, v.LeftNeon)
+    '                .SetNeonLightsOn(VehicleNeonLight.Right, v.RightNeon)
+    '                .WindowTint = v.Tint
+    '                .PrimaryColor = v.PrimaryColor
+    '                .SecondaryColor = v.SecondaryColor
+    '                .PearlescentColor = v.PearlescentColor
+    '                .RimColor = v.RimColor
+    '                .DashboardColor = v.LightsColor
+    '                .NeonLightsColor = v.NeonLightsColor.ToColor
+    '                .TireSmokeColor = v.TireSmokeColor.ToColor
+    '                .Livery2(v.Livery2)
+    '                .Livery = v.Livery1
+    '                .XenonHeadlightsColor(v.HeadlightsColor)
+    '                .CanTiresBurst = v.BulletProofTires
+    '                If v.HasCustomPrimaryColor Then .CustomPrimaryColor = v.CustomPrimaryColor.ToColor
+    '                If v.HasCustomSecondaryColor Then .CustomSecondaryColor = v.CustomSecondaryColor.ToColor
+    '                .ToggleExtra(0, v.Extra0)
+    '                .ToggleExtra(1, v.Extra1)
+    '                .ToggleExtra(2, v.Extra2)
+    '                .ToggleExtra(3, v.Extra3)
+    '                .ToggleExtra(4, v.Extra4)
+    '                .ToggleExtra(5, v.Extra5)
+    '                .ToggleExtra(6, v.Extra6)
+    '                .ToggleExtra(7, v.Extra7)
+    '                .ToggleExtra(8, v.Extra8)
+    '                .ToggleExtra(9, v.Extra9)
+    '                .ToggleExtra(10, v.Extra10)
+    '                .ToggleExtra(11, v.Extra11)
+    '                .ToggleExtra(12, v.Extra12)
+    '                .ToggleExtra(13, v.Extra13)
+    '                .ToggleExtra(14, v.Extra14)
+    '                .ToggleExtra(15, v.Extra15)
+    '                .DirtLevel = v.DirtLevel
+    '                If saveDamage Then
+    '                    .BodyHealth = v.BodyHealth
+    '                    .EngineHealth = v.EngineHealth
+    '                    .PetrolTankHealth = v.PetrolTankHealth
+    '                End If
+    '                .FuelLevel = v.FuelLevel
+    '                .RoofState = v.RoofState
+    '                .SteeringScale = v.SteeringScale
+    '                If IsNitroModInstalled() Then .SetInt(nitroModDecor, v.HasNitro)
+    '                .IsPersistent = True
+    '                If showBlips Then
+    '                    .AddBlip()
+    '                    .CurrentBlip.Sprite = veh.GetSprite
+    '                    Select Case v.Owner
+    '                        Case 0
+    '                            .CurrentBlip.Color = BlipColor.Michael
+    '                        Case 1
+    '                            .CurrentBlip.Color = BlipColor.Franklin
+    '                        Case 2
+    '                            .CurrentBlip.Color = BlipColor.Trevor
+    '                        Case 3
+    '                            .CurrentBlip.Color = BlipColor.NetPlayer1
+    '                    End Select
+    '                    .CurrentBlip.IsShortRange = True
+    '                    .CurrentBlip.Name = If(dispVehName, v.FullName, Game.GetGXTEntry("PVEHICLE"))
+    '                End If
+    '                .SetInt(modDecor, v.Owner)
+    '                .SetBool(modDecor2, True)
+    '                .LockStatus = VehicleLockStatus.LockedForPlayer
+    '                .HasAlarm = True
+    '                If .Model.IsHelicopter Then .FreezePosition = True
+    '            End With
+    '            listOfVeh.Add(veh)
+    '            If v.HasTrailer Then
+    '                t = pv.TrailerVehicles
+    '                trl = World.CreateVehicle(t.Hash, t.Position)
+    '                With trl
+    '                    .Rotation = t.Rotation
+    '                    .WheelType = t.WheelType
+    '                    .InstallModKit()
+    '                    .SetMod(VehicleMod.Aerials, t.Aerials, True)
+    '                    .SetMod(VehicleMod.Suspension, t.Suspension, True)
+    '                    .SetMod(VehicleMod.Brakes, t.Brakes, True)
+    '                    .SetMod(VehicleMod.Engine, t.Engine, True)
+    '                    .SetMod(VehicleMod.Transmission, t.Transmission, True)
+    '                    .SetMod(VehicleMod.FrontBumper, t.FrontBumper, True)
+    '                    .SetMod(VehicleMod.RearBumper, t.RearBumper, True)
+    '                    .SetMod(VehicleMod.SideSkirt, t.SideSkirt, True)
+    '                    .SetMod(VehicleMod.Trim, t.Trim, True)
+    '                    .SetMod(VehicleMod.EngineBlock, t.EngineBlock, True)
+    '                    .SetMod(VehicleMod.AirFilter, t.AirFilter, True)
+    '                    .SetMod(VehicleMod.Struts, t.Struts, True)
+    '                    .SetMod(VehicleMod.ColumnShifterLevers, t.ColumnShifterLevers, True)
+    '                    .SetMod(VehicleMod.Dashboard, t.Dashboard, True)
+    '                    .SetMod(VehicleMod.DialDesign, t.DialDesign, True)
+    '                    .SetMod(VehicleMod.Ornaments, t.Ornaments, True)
+    '                    .SetMod(VehicleMod.Seats, t.Seats, True)
+    '                    .SetMod(VehicleMod.SteeringWheels, t.SteeringWheel, True)
+    '                    .SetMod(VehicleMod.TrimDesign, t.TrimDesign, True)
+    '                    .SetMod(VehicleMod.PlateHolder, t.PlateHolder, True)
+    '                    .SetMod(VehicleMod.VanityPlates, t.VanityPlates, True)
+    '                    .SetMod(VehicleMod.FrontWheels, t.Frontwheels, t.WheelsVariation)
+    '                    .SetMod(VehicleMod.BackWheels, t.BackWheels, t.WheelsVariation)
+    '                    .SetMod(VehicleMod.ArchCover, t.ArchCover, True)
+    '                    .SetMod(VehicleMod.Exhaust, t.Exhaust, True)
+    '                    .SetMod(VehicleMod.Fender, t.Fender, True)
+    '                    .SetMod(VehicleMod.RightFender, t.RightFender, True)
+    '                    .SetMod(VehicleMod.DoorSpeakers, t.DoorSpeakers, True)
+    '                    .SetMod(VehicleMod.Frame, t.Frame, True)
+    '                    .SetMod(VehicleMod.Grille, t.Grille, True)
+    '                    .SetMod(VehicleMod.Hood, t.Hood, True)
+    '                    .SetMod(VehicleMod.Horns, t.Horn, True)
+    '                    .SetMod(VehicleMod.Hydraulics, t.Hydraulics, True)
+    '                    .SetMod(VehicleMod.Livery, t.Livery, True)
+    '                    .SetMod(VehicleMod.Plaques, t.Plaques, True)
+    '                    .SetMod(VehicleMod.Roof, t.Roof, True)
+    '                    .SetMod(VehicleMod.Speakers, t.Speakers, True)
+    '                    .SetMod(VehicleMod.Spoilers, t.Spoiler, True)
+    '                    .SetMod(VehicleMod.Tank, t.Tank, True)
+    '                    .SetMod(VehicleMod.Trunk, t.Trunk, True)
+    '                    .SetMod(VehicleMod.Windows, t.Windows, True)
+    '                    .ToggleMod(VehicleToggleMod.XenonHeadlights, t.Headlights)
+    '                    .ToggleMod(VehicleToggleMod.Turbo, t.Turbo)
+    '                    .ToggleMod(VehicleToggleMod.TireSmoke, t.Tiresmoke)
+    '                    .TrimColor = t.TrimColor
+    '                    .NumberPlateType = t.NumberPlate
+    '                    .NumberPlate = t.PlateNumber
+    '                    .SetNeonLightsOn(VehicleNeonLight.Front, t.FrontNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Back, t.BackNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Left, t.LeftNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Right, t.RightNeon)
+    '                    .WindowTint = t.Tint
+    '                    .PrimaryColor = t.PrimaryColor
+    '                    .SecondaryColor = t.SecondaryColor
+    '                    .PearlescentColor = t.PearlescentColor
+    '                    .RimColor = t.RimColor
+    '                    .DashboardColor = t.LightsColor
+    '                    .NeonLightsColor = t.NeonLightsColor.ToColor
+    '                    .TireSmokeColor = t.TireSmokeColor.ToColor
+    '                    .Livery2(t.Livery2)
+    '                    .XenonHeadlightsColor(t.HeadlightsColor)
+    '                    .CanTiresBurst = t.BulletProofTires
+    '                    If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
+    '                    If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
+    '                    .ToggleExtra(0, t.Extra0)
+    '                    .ToggleExtra(1, t.Extra1)
+    '                    .ToggleExtra(2, t.Extra2)
+    '                    .ToggleExtra(3, t.Extra3)
+    '                    .ToggleExtra(4, t.Extra4)
+    '                    .ToggleExtra(5, t.Extra5)
+    '                    .ToggleExtra(6, t.Extra6)
+    '                    .ToggleExtra(7, t.Extra7)
+    '                    .ToggleExtra(8, t.Extra8)
+    '                    .ToggleExtra(9, t.Extra9)
+    '                    .ToggleExtra(10, t.Extra10)
+    '                    .ToggleExtra(11, t.Extra11)
+    '                    .ToggleExtra(12, t.Extra12)
+    '                    .ToggleExtra(13, t.Extra13)
+    '                    .ToggleExtra(14, t.Extra14)
+    '                    .ToggleExtra(15, t.Extra15)
+    '                    .DirtLevel = t.DirtLevel
+    '                    If saveDamage Then
+    '                        .BodyHealth = t.BodyHealth
+    '                        .EngineHealth = t.EngineHealth
+    '                        .PetrolTankHealth = t.PetrolTankHealth
+    '                    End If
+    '                    .FuelLevel = t.FuelLevel
+    '                    .RoofState = t.RoofState
+    '                    .SteeringScale = t.SteeringScale
+    '                    If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
+    '                    .IsPersistent = True
+    '                    .SetInt(modDecor, t.Owner)
+    '                    .SetBool(modDecor2, True)
+    '                End With
+    '                listOfTrl.Add(trl)
+    '                veh.AttachToTrailer(trl)
+    '                Script.Wait(500)
+    '            End If
+    '            If v.HasTowing Then
+    '                t = pv.TrailerVehicles
+    '                trl = World.CreateVehicle(t.Hash, t.Position)
+    '                With trl
+    '                    .Rotation = t.Rotation
+    '                    .WheelType = t.WheelType
+    '                    .InstallModKit()
+    '                    .SetMod(VehicleMod.Aerials, t.Aerials, True)
+    '                    .SetMod(VehicleMod.Suspension, t.Suspension, True)
+    '                    .SetMod(VehicleMod.Brakes, t.Brakes, True)
+    '                    .SetMod(VehicleMod.Engine, t.Engine, True)
+    '                    .SetMod(VehicleMod.Transmission, t.Transmission, True)
+    '                    .SetMod(VehicleMod.FrontBumper, t.FrontBumper, True)
+    '                    .SetMod(VehicleMod.RearBumper, t.RearBumper, True)
+    '                    .SetMod(VehicleMod.SideSkirt, t.SideSkirt, True)
+    '                    .SetMod(VehicleMod.Trim, t.Trim, True)
+    '                    .SetMod(VehicleMod.EngineBlock, t.EngineBlock, True)
+    '                    .SetMod(VehicleMod.AirFilter, t.AirFilter, True)
+    '                    .SetMod(VehicleMod.Struts, t.Struts, True)
+    '                    .SetMod(VehicleMod.ColumnShifterLevers, t.ColumnShifterLevers, True)
+    '                    .SetMod(VehicleMod.Dashboard, t.Dashboard, True)
+    '                    .SetMod(VehicleMod.DialDesign, t.DialDesign, True)
+    '                    .SetMod(VehicleMod.Ornaments, t.Ornaments, True)
+    '                    .SetMod(VehicleMod.Seats, t.Seats, True)
+    '                    .SetMod(VehicleMod.SteeringWheels, t.SteeringWheel, True)
+    '                    .SetMod(VehicleMod.TrimDesign, t.TrimDesign, True)
+    '                    .SetMod(VehicleMod.PlateHolder, t.PlateHolder, True)
+    '                    .SetMod(VehicleMod.VanityPlates, t.VanityPlates, True)
+    '                    .SetMod(VehicleMod.FrontWheels, t.Frontwheels, t.WheelsVariation)
+    '                    .SetMod(VehicleMod.BackWheels, t.BackWheels, t.WheelsVariation)
+    '                    .SetMod(VehicleMod.ArchCover, t.ArchCover, True)
+    '                    .SetMod(VehicleMod.Exhaust, t.Exhaust, True)
+    '                    .SetMod(VehicleMod.Fender, t.Fender, True)
+    '                    .SetMod(VehicleMod.RightFender, t.RightFender, True)
+    '                    .SetMod(VehicleMod.DoorSpeakers, t.DoorSpeakers, True)
+    '                    .SetMod(VehicleMod.Frame, t.Frame, True)
+    '                    .SetMod(VehicleMod.Grille, t.Grille, True)
+    '                    .SetMod(VehicleMod.Hood, t.Hood, True)
+    '                    .SetMod(VehicleMod.Horns, t.Horn, True)
+    '                    .SetMod(VehicleMod.Hydraulics, t.Hydraulics, True)
+    '                    .SetMod(VehicleMod.Livery, t.Livery, True)
+    '                    .SetMod(VehicleMod.Plaques, t.Plaques, True)
+    '                    .SetMod(VehicleMod.Roof, t.Roof, True)
+    '                    .SetMod(VehicleMod.Speakers, t.Speakers, True)
+    '                    .SetMod(VehicleMod.Spoilers, t.Spoiler, True)
+    '                    .SetMod(VehicleMod.Tank, t.Tank, True)
+    '                    .SetMod(VehicleMod.Trunk, t.Trunk, True)
+    '                    .SetMod(VehicleMod.Windows, t.Windows, True)
+    '                    .ToggleMod(VehicleToggleMod.XenonHeadlights, t.Headlights)
+    '                    .ToggleMod(VehicleToggleMod.Turbo, t.Turbo)
+    '                    .ToggleMod(VehicleToggleMod.TireSmoke, t.Tiresmoke)
+    '                    .TrimColor = t.TrimColor
+    '                    .NumberPlateType = t.NumberPlate
+    '                    .NumberPlate = t.PlateNumber
+    '                    .SetNeonLightsOn(VehicleNeonLight.Front, t.FrontNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Back, t.BackNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Left, t.LeftNeon)
+    '                    .SetNeonLightsOn(VehicleNeonLight.Right, t.RightNeon)
+    '                    .WindowTint = t.Tint
+    '                    .PrimaryColor = t.PrimaryColor
+    '                    .SecondaryColor = t.SecondaryColor
+    '                    .PearlescentColor = t.PearlescentColor
+    '                    .RimColor = t.RimColor
+    '                    .DashboardColor = t.LightsColor
+    '                    .NeonLightsColor = t.NeonLightsColor.ToColor
+    '                    .TireSmokeColor = t.TireSmokeColor.ToColor
+    '                    .Livery2(t.Livery2)
+    '                    .XenonHeadlightsColor(t.HeadlightsColor)
+    '                    .CanTiresBurst = t.BulletProofTires
+    '                    If .IsPrimaryColorCustom Then .CustomPrimaryColor = t.CustomPrimaryColor.ToColor
+    '                    If .IsSecondaryColorCustom Then .CustomSecondaryColor = t.CustomSecondaryColor.ToColor
+    '                    .ToggleExtra(0, t.Extra0)
+    '                    .ToggleExtra(1, t.Extra1)
+    '                    .ToggleExtra(2, t.Extra2)
+    '                    .ToggleExtra(3, t.Extra3)
+    '                    .ToggleExtra(4, t.Extra4)
+    '                    .ToggleExtra(5, t.Extra5)
+    '                    .ToggleExtra(6, t.Extra6)
+    '                    .ToggleExtra(7, t.Extra7)
+    '                    .ToggleExtra(8, t.Extra8)
+    '                    .ToggleExtra(9, t.Extra9)
+    '                    .ToggleExtra(10, t.Extra10)
+    '                    .ToggleExtra(11, t.Extra11)
+    '                    .ToggleExtra(12, t.Extra12)
+    '                    .ToggleExtra(13, t.Extra13)
+    '                    .ToggleExtra(14, t.Extra14)
+    '                    .ToggleExtra(15, t.Extra15)
+    '                    .DirtLevel = t.DirtLevel
+    '                    If saveDamage Then
+    '                        .BodyHealth = t.BodyHealth
+    '                        .EngineHealth = t.EngineHealth
+    '                        .PetrolTankHealth = t.PetrolTankHealth
+    '                    End If
+    '                    .FuelLevel = t.FuelLevel
+    '                    .RoofState = t.RoofState
+    '                    .SteeringScale = t.SteeringScale
+    '                    If IsNitroModInstalled() Then .SetInt(nitroModDecor, t.HasNitro)
+    '                    .IsPersistent = True
+    '                    .SetInt(modDecor, t.Owner)
+    '                    .SetBool(modDecor2, True)
+    '                End With
+    '                listOfTrl.Add(trl)
+    '                veh.TowVehicle(trl, False)
+    '                Script.Wait(500)
+    '            End If
+    '        Next
+    '    Catch ex As Exception
+    '        Logger.Log($"{ex.Message} {procFile}{ex.StackTrace}")
+    '    Finally
+    '        If listOfVeh.Count = files.Count Then
+    '            IsVehicleLoaded = True
+    '            IsVehicleLoading = False
+    '            Try
+    '                UI.Notify(String.Format(GetLangEntry("loaded"), files.Count))
+    '            Catch
+    '            End Try
+    '        Else
+    '            Try
+    '                For Each veh As Vehicle In listOfVeh
+    '                    If veh.ExistsOn(modDecor) Then
+    '                        If showBlips Then veh.CurrentBlip.Remove()
+    '                        veh.Delete()
+    '                    End If
+    '                Next
+    '                listOfVeh = New List(Of Vehicle)
+    '                For Each trl As Vehicle In listOfTrl
+    '                    If trl.ExistsOn(modDecor) Then
+    '                        trl.Delete()
+    '                    End If
+    '                Next
+    '                listOfTrl = New List(Of Vehicle)
+    '                IsVehicleLoaded = False
+    '                IsVehicleLoading = False
+    '            Catch ex As Exception
+    '                Logger.Log($"{ex.Message}{ex.HResult}{ex.StackTrace}")
+    '            End Try
+    '        End If
+    '    End Try
+    'End Sub
 
     Public Sub PatchRedBlips()
         Try
             For Each vehicle As Vehicle In listOfVeh
-                If vehicle.CurrentBlip.Sprite <> vehicle.GetSprite Then
-                    vehicle.CurrentBlip.Sprite = vehicle.GetSprite
-                    vehicle.CurrentBlip.Color = GetOwnerColor(vehicle.GetInt(modDecor))
-                    vehicle.CurrentBlip.IsShortRange = True
-                    vehicle.CurrentBlip.Name = If(dispVehName, vehicle.FullName, Game.GetGXTEntry("PVEHICLE"))
+                If vehicle.AttachedBlip.Sprite <> vehicle.GetSprite Then
+                    vehicle.AttachedBlip.Sprite = vehicle.GetSprite
+                    vehicle.AttachedBlip.Color = GetOwnerColor(vehicle.GetInt(modDecor))
+                    vehicle.AttachedBlip.IsShortRange = True
+                    vehicle.AttachedBlip.Name = If(userConfig.DisplayVehicleName, vehicle.FullName, Game.GetLocalizedString("PVEHICLE"))
                 End If
             Next
         Catch ex As Exception
