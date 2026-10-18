@@ -1,0 +1,11 @@
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\bin\Debug\PatchNitro.exe.config
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\bin\Debug\PatchNitro.exe
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\bin\Debug\PatchNitro.pdb
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\bin\Debug\PatchNitro.xml
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.vbproj.AssemblyReference.cache
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.Resources.resources
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.vbproj.GenerateResource.cache
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.vbproj.CoreCompileInputs.cache
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.exe
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.xml
+C:\Users\ADMIN\Documents\GitHub\Persistence-II\PatchNitro\obj\Debug\PatchNitro.pdb
