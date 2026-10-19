@@ -98,6 +98,7 @@
     <Compile Include="Class\Helper.vb" />
     <Compile Include="Indicator.vb" />
     <Compile Include="Class\NewFunc.vb" />
+    <Compile Include="Class\SpatialSound.vb" />
     <Compile Include="Persistence.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
     <Compile Include="My Project\Application.Designer.vb">
@@ -115,7 +116,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Class\PVehicle.vb" />
-    <Compile Include="SoundTester.vb" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="My Project\Resources.resx">

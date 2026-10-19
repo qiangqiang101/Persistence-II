@@ -19,6 +19,7 @@ Module Helper
 
     'Path
     Public xmlPath As String = ".\scripts\Persistence\Vehicles\"
+    Public wavPath As String = ".\scripts\Persistence\Sound\"
 
     'Memory
     Public listOfVeh As New List(Of Vehicle)
@@ -156,9 +157,10 @@ Module Helper
         Return New VsColor(col.R, col.G, col.B)
     End Function
 
-    Public Function StartAudioScene(scene As String)
-        Native.Function.Call(Hash.START_AUDIO_SCENE, scene)
-    End Function
+    <Extension>
+    Public Sub SetIndicatorLights(vehicle As Vehicle, turn As Integer, toggle As Boolean)
+        Native.Function.Call(Hash.SET_VEHICLE_INDICATOR_LIGHTS, vehicle, turn, toggle)
+    End Sub
 
     <Extension>
     Public Sub LockVehicle(vehicle As Vehicle, ped As Ped)
@@ -167,9 +169,10 @@ Module Helper
         carkey.AttachTo(ped.Bones(Bone.PHRightHand), Vector3.Zero, Vector3.Zero)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, CType(49, AnimationFlags))
         Indicator.veh = vehicle
+        'Audio.PlaySoundFromEntityAndForget(ped, "Remote_Control_Fob", "PI_Menu_Sounds")
+        'Audio.PlaySoundFromEntityAndForget(vehicle, "Remote_Control_Close", "PI_Menu_Sounds")
         Script.Wait(500)
-        Audio.PlaySoundFromEntityAndForget(ped, "Remote_Control_Fob", "PI_Menu_Sounds")
-        Audio.PlaySoundFromEntityAndForget(vehicle, "Remote_Control_Close", "PI_Menu_Sounds")
+        PlayWaveAt($"{wavPath}lock.wav", vehicle.Position)
         vehicle.LockStatus = VehicleLockStatus.PlayerCannotEnter
         vehicle.IsAlarmSet = True
         Script.Wait(500)
@@ -185,9 +188,10 @@ Module Helper
         carkey.AttachTo(ped.Bones(Bone.PHRightHand), Vector3.Zero, Vector3.Zero)
         ped.Task.PlayAnimation("anim@mp_player_intmenu@key_fob@", "fob_click_fp", 10.0F, 1500, CType(49, AnimationFlags))
         Indicator.veh = vehicle
+        'Audio.PlaySoundFromEntityAndForget(ped, "Remote_Control_Fob", "PI_Menu_Sounds")
+        'Audio.PlaySoundFromEntityAndForget(vehicle, "Remote_Control_Open", "PI_Menu_Sounds")
         Script.Wait(500)
-        Audio.PlaySoundFromEntityAndForget(ped, "Remote_Control_Fob", "PI_Menu_Sounds")
-        Audio.PlaySoundFromEntityAndForget(vehicle, "Remote_Control_Open", "PI_Menu_Sounds")
+        PlayWaveAt($"{wavPath}unlock.wav", vehicle.Position)
         vehicle.LockStatus = VehicleLockStatus.Unlocked
         Script.Wait(500)
         carkey.Detach()
@@ -608,7 +612,8 @@ Module Helper
 
     <Extension>
     Public Function FullName(vehicle As Vehicle) As String
-        Dim make As String = Vehicle.GetModelMakeName(vehicle.Model)
+        Dim makeString As String = Vehicle.GetModelMakeName(vehicle.Model)
+        Dim make = Game.GetLocalizedString(makeString)
         Dim name As String = vehicle.LocalizedName
         Dim full As String = $"{make} {name}"
         If make = "NULL" Then full = name
@@ -728,7 +733,7 @@ Module Helper
                         .EngineHealth = v.EngineHealth
                         .PetrolTankHealth = v.PetrolTankHealth
                     End If
-                    .FuelLevel = v.FuelLevel
+                    '.FuelLevel = v.FuelLevel
                     .RoofState = v.RoofState
                     .SteeringScale = v.SteeringScale
                     If IsNitroModInstalled() Then DecoratorInterface.SetInt(veh, nitroModDecor, v.HasNitro)
@@ -853,7 +858,6 @@ Module Helper
                             .EngineHealth = t.EngineHealth
                             .PetrolTankHealth = t.PetrolTankHealth
                         End If
-                        .FuelLevel = t.FuelLevel
                         .RoofState = t.RoofState
                         .SteeringScale = t.SteeringScale
                         If IsNitroModInstalled() Then DecoratorInterface.SetInt(trl, nitroModDecor, t.HasNitro)
@@ -960,7 +964,6 @@ Module Helper
                             .EngineHealth = t.EngineHealth
                             .PetrolTankHealth = t.PetrolTankHealth
                         End If
-                        .FuelLevel = t.FuelLevel
                         .RoofState = t.RoofState
                         .SteeringScale = t.SteeringScale
                         If IsNitroModInstalled() Then DecoratorInterface.SetInt(trl, nitroModDecor, t.HasNitro)
@@ -1151,7 +1154,6 @@ Module Helper
         Dim lastHandle As Integer = LastVehicleHandle()
         Return World.GetAllVehicles.Where(Function(x) x.IsVehiclePersist And x.IsPersistent And Not x.IsVehicleHasOwner And x.Handle <> lastHandle).Count
     End Function
-
 
 End Module
 

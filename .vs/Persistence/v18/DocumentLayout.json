@@ -3,24 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|c:\\users\\admin\\documents\\github\\persistence-ii\\persistence\\class\\helper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\helper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|c:\\users\\admin\\documents\\github\\persistence-ii\\persistence\\soundtester.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\soundtester.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\persistence\\class\\pvehicle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\pvehicle.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\persistence\\class\\allclass.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\allclass.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|c:\\users\\admin\\documents\\github\\persistence-ii\\persistence\\class\\helper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\helper.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\persistence\\persistence.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
       "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\persistence.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|c:\\users\\admin\\documents\\github\\persistence-ii\\persistence\\class\\allclass.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
-      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\allclass.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
+      "AbsoluteMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|c:\\users\\admin\\documents\\github\\persistence-ii\\persistence\\class\\spatialsound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}",
+      "RelativeMoniker": "D:0:0:{7B35A553-8246-4F77-9F33-CE86F956A27E}|Persistence\\Persistence.vbproj|solutionrelative:persistence\\class\\spatialsound.vb||{2C015C70-C72C-11D0-88C3-00A0C9110049}"
     }
   ],
   "DocumentGroupContainers": [
@@ -30,56 +30,43 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "SoundTester.vb",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\SoundTester.vb",
-              "RelativeDocumentMoniker": "Persistence\\SoundTester.vb",
-              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\SoundTester.vb",
-              "RelativeToolTip": "Persistence\\SoundTester.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA7AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-10-18T18:55:28.463Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "AllClass.vb",
-              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\AllClass.vb",
-              "RelativeDocumentMoniker": "Persistence\\Class\\AllClass.vb",
-              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\AllClass.vb",
-              "RelativeToolTip": "Persistence\\Class\\AllClass.vb",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAALAAAAAAAAAA==",
+              "Title": "SpatialSound.vb",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\SpatialSound.vb",
+              "RelativeDocumentMoniker": "Persistence\\Class\\SpatialSound.vb",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\SpatialSound.vb",
+              "RelativeToolTip": "Persistence\\Class\\SpatialSound.vb",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
-              "WhenOpened": "2026-10-18T17:05:10.985Z",
+              "WhenOpened": "2026-10-19T10:08:24.608Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "PVehicle.vb",
               "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\PVehicle.vb",
               "RelativeDocumentMoniker": "Persistence\\Class\\PVehicle.vb",
               "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\PVehicle.vb",
               "RelativeToolTip": "Persistence\\Class\\PVehicle.vb",
-              "ViewState": "AgIAALkAAAAAAAAAAAAAANkAAABFAAAAAAAAAA==",
+              "ViewState": "AgIAAKQAAAAAAAAAAAAuwJIAAAAiAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-10-18T16:08:19.446Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 2,
               "Title": "Helper.vb",
               "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\Helper.vb",
               "RelativeDocumentMoniker": "Persistence\\Class\\Helper.vb",
               "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\Helper.vb",
               "RelativeToolTip": "Persistence\\Class\\Helper.vb",
-              "ViewState": "AgIAAJQAAAAAAAAAAAApwKoAAABDAAAAAAAAAA==",
+              "ViewState": "AgIAAAwAAAAAAAAAAIAwwCoAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-10-18T15:41:45.002Z",
               "EditorCaption": ""
@@ -92,9 +79,43 @@
               "RelativeDocumentMoniker": "Persistence\\Persistence.vb",
               "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Persistence.vb",
               "RelativeToolTip": "Persistence\\Persistence.vb",
-              "ViewState": "AgIAAAwAAAAAAAAAAAA1wCoAAAArAAAAAAAAAA==",
+              "ViewState": "AgIAADcAAAAAAAAAAAAgwFUAAABGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
               "WhenOpened": "2026-10-18T15:33:44.876Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "FloatingWindowState": {
+        "Id": "ee685b6a-40bd-4f6c-9c2b-12c69b74c504",
+        "Display": 1,
+        "X": -134,
+        "Y": 250,
+        "Width": 1549,
+        "Height": 958,
+        "WindowState": 2
+      },
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "AllClass.vb",
+              "DocumentMoniker": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\AllClass.vb",
+              "RelativeDocumentMoniker": "Persistence\\Class\\AllClass.vb",
+              "ToolTip": "C:\\Users\\ADMIN\\Documents\\GitHub\\Persistence-II\\Persistence\\Class\\AllClass.vb",
+              "RelativeToolTip": "Persistence\\Class\\AllClass.vb",
+              "ViewState": "AgIAAEkAAAAAAAAAAAA9wHUAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003361|",
+              "WhenOpened": "2026-10-18T17:05:10.985Z",
               "EditorCaption": ""
             }
           ]

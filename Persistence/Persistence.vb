@@ -78,7 +78,7 @@ Public Class Persistence
         If chopper IsNot Nothing AndAlso chopper.IsPositionFrozen Then chopper.IsPositionFrozen = False
 
         If LV IsNot Nothing AndAlso NV = LV AndAlso Not listOfTrl.Contains(LV) Then
-            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 10.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
+            If Not PP.IsInVehicle AndAlso PP.Position.DistanceToSquared(LV.Position) <= 100.0F AndAlso LV.LockStatus = VehicleLockStatus.Unlocked AndAlso Not listOfVeh.Contains(LV) Then
                 DisableControls()
                 If Not isPause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("lock"), saveKey.GetButtonIcon, LV.FullName))
                 If IsSaveKeyJustReleased() Then
@@ -138,7 +138,7 @@ Public Class Persistence
         End If
 
         If NV IsNot Nothing AndAlso NV = GetNearestCar() Then
-            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 10.0F AndAlso DecoratorInterface.ExistsOn(NV, modDecor) AndAlso NV.LockStatus = VehicleLockStatus.PlayerCannotEnter AndAlso DecoratorInterface.GetInt(NV, modDecor) = GetPlayerCharacter() Then
+            If Not PP.IsInVehicle AndAlso NV.Position.DistanceToSquared(PP.Position) <= 100.0F AndAlso DecoratorInterface.ExistsOn(NV, modDecor) AndAlso NV.LockStatus = VehicleLockStatus.PlayerCannotEnter AndAlso DecoratorInterface.GetInt(NV, modDecor) = GetPlayerCharacter() Then
                 DisableControls()
                 If Not isPause Then DisplayHelpTextThisFrame(String.Format(GetLangEntry("unlock"), saveKey.GetButtonIcon, NV.FullName))
                 If IsSaveKeyJustReleased() Then

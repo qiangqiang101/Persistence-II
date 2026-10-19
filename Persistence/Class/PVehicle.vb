@@ -124,12 +124,11 @@ Public Structure Vehicles
     Public CustomSecondaryColor As VsColor
     Public HasCustomPrimaryColor As Boolean
     Public HasCustomSecondaryColor As Boolean
-    Public Extra0, Extra1, Extra2, Extra3, Extra4, Extra5, Extra6, Extra7, Extra8, Extra9, Extra10, Extra11, Extra12, Extra13, Extra14, Extra15 As Boolean
+    Public Extra1, Extra2, Extra3, Extra4, Extra5, Extra6, Extra7, Extra8, Extra9, Extra10, Extra11, Extra12, Extra13, Extra14, Extra15, Extra16 As Boolean?
     Public DirtLevel As Single
     Public BodyHealth As Single
     Public EngineHealth As Single
     Public PetrolTankHealth As Single
-    Public FuelLevel As Single
     Public RoofState As Integer
     Public SteeringScale As Single
     Public HasTrailer As Boolean
@@ -139,7 +138,7 @@ Public Structure Vehicles
 
     Public Sub New(vehicle As Vehicle, _owner As Integer)
         Try
-            Make = Vehicle.GetModelMakeName(vehicle.Model)
+            Make = Game.GetLocalizedString(Vehicle.GetModelMakeName(vehicle.Model))
             Name = vehicle.LocalizedName
             Hash = vehicle.Model.Hash
             Position = vehicle.Position
@@ -165,7 +164,6 @@ Public Structure Vehicles
             Seats = vehicle.Mods(VehicleModType.Seats).Index
             SteeringWheel = vehicle.Mods(VehicleModType.SteeringWheels).Index
             TrimDesign = vehicle.Mods(VehicleModType.TrimDesign).Index
-            TrimColor = vehicle.Mods.TrimColor
             PlateHolder = vehicle.Mods(VehicleModType.PlateHolder).Index
             VanityPlates = vehicle.Mods(VehicleModType.VanityPlates).Index
             NumberPlate = vehicle.Mods.LicensePlateStyle
@@ -204,6 +202,7 @@ Public Structure Vehicles
             PearlescentColor = vehicle.Mods.PearlescentColor
             RimColor = vehicle.Mods.RimColor
             LightsColor = vehicle.Mods.DashboardColor
+            TrimColor = vehicle.Mods.TrimColor
             NeonLightsColor = vehicle.Mods.NeonLightsColor.ToVsColor
             TireSmokeColor = vehicle.Mods.TireSmokeColor.ToVsColor
             Tiresmoke = vehicle.Mods(VehicleToggleModType.TireSmoke).IsInstalled
@@ -214,27 +213,26 @@ Public Structure Vehicles
             CustomSecondaryColor = vehicle.Mods.CustomSecondaryColor.ToVsColor
             HasCustomPrimaryColor = vehicle.Mods.IsPrimaryColorCustom
             HasCustomSecondaryColor = vehicle.Mods.IsSecondaryColorCustom
-            Extra0 = vehicle.Extras(VehicleExtraIndex.Extra1).Enabled
-            Extra1 = vehicle.Extras(VehicleExtraIndex.Extra2).Enabled
-            Extra2 = vehicle.Extras(VehicleExtraIndex.Extra3).Enabled
-            Extra3 = vehicle.Extras(VehicleExtraIndex.Extra4).Enabled
-            Extra4 = vehicle.Extras(VehicleExtraIndex.Extra5).Enabled
-            Extra5 = vehicle.Extras(VehicleExtraIndex.Extra6).Enabled
-            Extra6 = vehicle.Extras(VehicleExtraIndex.Extra7).Enabled
-            Extra7 = vehicle.Extras(VehicleExtraIndex.Extra8).Enabled
-            Extra8 = vehicle.Extras(VehicleExtraIndex.Extra9).Enabled
-            Extra9 = vehicle.Extras(VehicleExtraIndex.Extra10).Enabled
-            Extra10 = vehicle.Extras(VehicleExtraIndex.Extra11).Enabled
-            Extra11 = vehicle.Extras(VehicleExtraIndex.Extra12).Enabled
-            Extra12 = vehicle.Extras(VehicleExtraIndex.Extra13).Enabled
-            Extra13 = vehicle.Extras(VehicleExtraIndex.Extra14).Enabled
-            Extra14 = vehicle.Extras(VehicleExtraIndex.Extra15).Enabled
-            Extra15 = vehicle.Extras(VehicleExtraIndex.Extra16).Enabled
+            Extra1 = vehicle.Extras(VehicleExtraIndex.Extra1).Enabled
+            Extra2 = vehicle.Extras(VehicleExtraIndex.Extra2).Enabled
+            Extra3 = vehicle.Extras(VehicleExtraIndex.Extra3).Enabled
+            Extra4 = vehicle.Extras(VehicleExtraIndex.Extra4).Enabled
+            Extra5 = vehicle.Extras(VehicleExtraIndex.Extra5).Enabled
+            Extra6 = vehicle.Extras(VehicleExtraIndex.Extra6).Enabled
+            Extra7 = vehicle.Extras(VehicleExtraIndex.Extra7).Enabled
+            Extra8 = vehicle.Extras(VehicleExtraIndex.Extra8).Enabled
+            Extra9 = vehicle.Extras(VehicleExtraIndex.Extra9).Enabled
+            Extra10 = vehicle.Extras(VehicleExtraIndex.Extra10).Enabled
+            Extra11 = vehicle.Extras(VehicleExtraIndex.Extra11).Enabled
+            Extra12 = vehicle.Extras(VehicleExtraIndex.Extra12).Enabled
+            Extra13 = vehicle.Extras(VehicleExtraIndex.Extra13).Enabled
+            Extra14 = vehicle.Extras(VehicleExtraIndex.Extra14).Enabled
+            Extra15 = vehicle.Extras(VehicleExtraIndex.Extra15).Enabled
+            Extra16 = vehicle.Extras(VehicleExtraIndex.Extra16).Enabled
             DirtLevel = vehicle.DirtLevel
             BodyHealth = vehicle.BodyHealth
             EngineHealth = vehicle.EngineHealth
             PetrolTankHealth = vehicle.PetrolTankHealth
-            FuelLevel = vehicle.FuelLevel
             RoofState = vehicle.RoofState
             SteeringScale = vehicle.SteeringScale
             HasTrailer = vehicle.HasTrailer
